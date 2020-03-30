@@ -1,16 +1,12 @@
 clear all
 close all
 
-c = 1;
-
 xr = 1;
 xl = 0;
 L = xr-xl;
 
 N = [21 41 81 161 321];
 h = (xr-xl)./(N-1);
-%tummregel för k
-k = h./(2*c);
 J = length(N);
 
 H = cell(J,1);
@@ -40,8 +36,10 @@ em{i,1}(1,end) = 1;
 
 d1{i,1} = zeros(1,J(i));
 d1{i,1}(1,1:3) = [-3/2 2 1/2];
-d1{i,1} = d1{i,1}.*(1/h(i));
+d1{i,1} = d{i,1}.*(1/h(i));
 dm{i,1} = zeros(1,J(i));
 dm{i,1}(1,(end-2):end) = [1/2 -2 3/2];
 dm{i,1} = dm{i,1}.*(1/h(i));
+
+
 end
