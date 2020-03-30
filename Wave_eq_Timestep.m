@@ -25,9 +25,9 @@ H = cell(1,length(N));
 M = cell(1,length(N));
 D2 = cell(1,length(N));
 u = cell(1, length(N));
+error = cell(1, length(N));
 x = cell(1, length(N));
 t = cell(1, length(N));
-error = zeros(1, length(N));
 for j = 1:length(N)
    e1{1,j} = zeros(1,N(j));
    eN{1,j} = zeros(1,N(j));
@@ -35,7 +35,11 @@ for j = 1:length(N)
    dN{1,j} = zeros(1,N(j));
    e1{1,j}(1,1) = 1;   
    eN{1,j}(1,end) = 1;
+
    %%%%%% second-order D2%%%%%% (But first???)
+
+   %%%%%% second-order D2%%%%%% 
+
 %    d1{1,j}(1,1:3) = 1/h(j)*[-3/2 2 -1/2];
 %    dN{1,j}(1,(end-2):end) = 1/h(j)*[1/2 -2 3/2];
 %    H{1,j} = h(j)*diag(ones(1,N(j)));
@@ -66,20 +70,22 @@ for j = 1:length(N)
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
    
    %%%%%%% timestep %%%%%%%
-   k(j) = 2*h(j)/sqrt(max(abs(eig(c^2.*(D2{1,j} + H{1,j}\(e1{1,j}'*d1{1,j}) - H{1,j}\(eN{1,j}'*dN{1,j})))))); 
-   %k(j) = h(j)/c; 
+%    k(j) = 2*h(j)/sqrt(max(abs(eig(c^2.*(D2{1,j} + H{1,j}\(e1{1,j}'*d1{1,j}) - H{1,j}\(eN{1,j}'*dN{1,j})))))); 
+   k(j) = 0.01*h(j)/c; 
    %%%%%%%%%%%%%%%%%%%%%%%%
    
    x{1,j} = linspace(x0, xN, N(j));
    t{1,j} = linspace(t0, T, (T-t0)/k(j));
    u{1,j} = zeros(length(x{1,j}), length(t{1,j}));
+   error{1,j} = zeros(1, length(t{1,j}));
    %%%%% Initial data %%%%%%%%%
    u{1,j}(:,1) = u0(x{1,j});
-   u{1,j}(:,2) = k(j)*u0_t + k(j)^2/2*c^2*D2{1,j}*u{1,j}(:,1) + u{1,j}(:,1);
+   u{1,j}(:,2) = k(j)*u0_t + k(j)^2/2*c^2*(D2{1,j}*u{1,j}(:,1)+ H{1,j}\(e1{1,j}'*(d1{1,j}*u{1,j}(:,1)-u_x0)) - H{1,j}\(eN{1,j}'*(dN{1,j}*u{1,j}(:,1)-u_xN))) + u{1,j}(:,1);
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
     pause on;
    for n = 3:length(t{1,j})
        u{1,j}(:,n) = k(j)^2*c^2.*(D2{1,j}*u{1,j}(:,n-1) + H{1,j}\(e1{1,j}'*(d1{1,j}*u{1,j}(:,n-1)-u_x0)) - H{1,j}\(eN{1,j}'*(dN{1,j}*u{1,j}(:,n-1)-u_xN))) + 2*u{1,j}(:,n-1) - u{1,j}(:,n-2);
+       error{1,j}(1,n) = norm(-u{1,j}(:,n)'+ u_exact(x{1,j},t{1,j}(n)),2)/sqrt(N(j));
 %        figure(j);
 %        plot(x{1,j},u{1,j}(:,n),'*b');
 %        hold on;
@@ -93,12 +99,15 @@ for j = 1:length(N)
    hold on;
    plot(x{1,j},u_exact(x{1,j},t{1,j}(end)),'r');
    hold off;
-   error(j) = norm(-u{1,j}(:,end)'+ u_exact(x{1,j},t{1,j}(end)),2)/sqrt(N(j));
 end
 figure(j+1);
-p = polyfit(log(h),log(error),1);
+err = zeros(1, length(N));
+for j=1:length(err)
+   err(j) = norm(-u{1,j}(:,end)'+ u_exact(x{1,j},t{1,j}(end)),2)/sqrt(N(j));
+end
+p = polyfit(log(h),log(err),1);
 y = polyval(p,log(h));
-loglog(h, exp(y),'r',h,error, 'b*');
+loglog(h, exp(y),'r',h,err, 'b*');
 legend([num2str(p(1)),'log(h) + ', num2str(p(2))],'Error');
 xlabel('log(h)');
 ylabel('log(error)');
