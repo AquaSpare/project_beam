@@ -1,5 +1,5 @@
 
-function [H,M,e1,em,d1,dm] = SPBO2(N,h)
+function [H,M,e1,em,d1,dm,D2] = SPBO2(N,h)
 
 H = diag(ones(N,1));
 H(1,1) = 1/2;
@@ -22,3 +22,6 @@ d1 = d1.*(1/h);
 dm = zeros(1,N);
 dm(1,(end-2):end) = [1/2 -2 3/2];
 dm = dm.*(1/h);
+
+D2 = H\(-M-e1*d1+em*dm);
+end
