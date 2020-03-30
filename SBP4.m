@@ -1,4 +1,4 @@
-function [D2, H, HI, e1, eN, d1, dN] = SBP4(N, h)
+function [D2, H, HI, M, e1, eN, d1, dN] = SBP4(N, h)
 
 e1 = zeros(1,N);
 eN = zeros(1,N);

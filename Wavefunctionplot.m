@@ -28,7 +28,7 @@ u0_t = 0;
 %%%Exact solution%%%
 u_exact = @(x,t) cos(lambda.*t).*cos(lambda*x/c);
 
-[D2, H, HI, e1, eN, d1, dN] = SBP4(N, h);
+[D2, H, HI, M, e1, eN, d1, dN] = SBP4(N, h);
 
 A = c^2.*(D2 + + HI*(e1'*d1) - HI*(eN'*(dN)));
 
