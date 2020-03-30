@@ -9,7 +9,7 @@ H = h.*H;
 M = diag(2.*ones(N,1)) + diag(-1.*ones(N-1,1),1) + diag(-1.*ones(N-1,1),-1);
 M(1,1) = 1;
 M(end,end) = 1;
-M = (1/h).*M;
+M = .*M;
 
 e1 = zeros(1,N);
 e1(1,1) = 1;
@@ -25,5 +25,4 @@ dm = dm.*(1/h);
 
 D2 = H\(-M-e1'*d1+em'*dm);
 HI = inv(H);
-
 end
