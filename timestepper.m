@@ -1,6 +1,6 @@
 function [solution, k] = timestepper(t0, T, h, A, u0, u0_t)
 
-k = 2*h/sqrt(max(abs(eig(A))));
+k = 0.1*h;
 
 t = t0:k:T;
 solution = zeros(length(u0),length(t));
