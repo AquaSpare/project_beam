@@ -18,19 +18,20 @@ T = 10;
 %%%Constant%%%
 
 al = 1;
-ar = 8;
+ar = 2;
 
 bl = 1;
-br = 2;
+br = 8;
 
 sl = sqrt(al*bl);
 sr = sqrt(ar*br);
 
 Trans = (2*sl)/(sl+sr);
-R = (sl-sr)/(sl+sl);
+R = (sl-sr)/(sl+sr);
 
-cl = sqrt(al/bl);
-cr = sqrt(ar/br);
+
+cl = 1/sqrt(al/bl);
+cr = 1/sqrt(ar/br);
 % lambda = pi*c1/x2;
 %%%%%%%%%%%
 
