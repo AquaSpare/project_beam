@@ -13,6 +13,8 @@ x = [x1 x2];
 t0 = 0;
 T = 1;
 
+r0 = 1/30;
+xp = -1/4;
 %%%%%%%%%%%%%
 
 %%%Constant%%%
@@ -23,8 +25,17 @@ lambda = pi*c/xN;
 al = 1;
 bl = 1;
 
-a
+ar = 2;
+br = 8;
+
+sl = sqrt(al*bl);
+sr = sqrt(ar*br);
+
+T = (2*sl)/(sl+sr);
+R = (sl-sr)/(sl+sr);
 %%%%%%%%%%%
+
+
 
 %%%Boundary conditions%%%
 % u_x0 = 0; u_xN = 0; % Neumann
