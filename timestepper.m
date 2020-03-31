@@ -1,4 +1,4 @@
-function [solution, k] = timestepper(t0, T, h, A, u0, u0_t)
+function [solution, k, t] = timestepper(t0, T, h, A, u0, u0_t)
 
 k = 0.1*h;
 
