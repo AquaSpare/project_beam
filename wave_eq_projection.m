@@ -16,19 +16,8 @@ T = 10;
 %%%%%%%%%%%%%
 
 %%%Constant%%%
-cl = 1;
-cr = 2;
-
-al = 1;
-ar = 2;
-bl = 1;
-br = 8;
-
-sl = sqrt(al*bl);
-sr = sqrt(ar*br);
-
-S = (2*sl)/(sl+sr);
-T = (sl-sr)/(sl+sr);
+c1 = 1;
+c2 = 2;
 % lambda = pi*c1/x2;
 %%%%%%%%%%%
 
@@ -37,7 +26,7 @@ T = (sl-sr)/(sl+sr);
 
 %%%Initial data%%%
 % u0 = @(x) sin(lambda.*x/c) + 2*sin(2*lambda.*x/c) + sin(3*lambda.*x/c) + sin(4*lambda.*x/c) + sin(5*lambda.*x/c) + sin(6*lambda.*x/c);
-xp = -1/4;
+x0 = -1/4;
 r0 = 1/30;
 u0 = @(x) 5*exp(-(x0-x).^2/r0^2);
 u0_t = 0;
@@ -46,7 +35,7 @@ u0_t = 0;
 u_exact = @(x,t) cos(lambda.*t)*sin(lambda.*x/c) + cos(2*lambda.*t)*2*sin(2*lambda.*x/c) + cos(3*lambda.*t)*sin(3*lambda.*x/c)+ cos(4*lambda.*t)*sin(4*lambda.*x/c) + cos(5*lambda.*t)*sin(5*lambda.*x/c) + cos(6*lambda.*t)*sin(6*lambda.*x/c);
 [D2, H, HI, M, e1, eN, d1, dN] = SBP4(N, h);
 
-L = [eN -e1; cl^2*dN -c2^2*d1; e1 zeros(1,N); zeros(1,N) eN];
+L = [eN -e1; c1^2*dN -c2^2*d1; e1 zeros(1,N); zeros(1,N) eN];
 H = [H zeros(N); zeros(N) H];
 HI = inv(H);
 
