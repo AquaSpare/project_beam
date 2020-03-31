@@ -18,8 +18,8 @@ xp = -1/4;
 %%%%%%%%%%%%%
 
 %%%Constant%%%
-c1 = 1;
-c2 = 1;
+cl = 1;
+cr = 1;
 lambda = pi*c/xN;
 
 al = 1;
