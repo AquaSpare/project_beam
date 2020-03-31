@@ -2,7 +2,7 @@
 close all
 pause on 
 %%%Domain%%%
-N = 81;
+N = 161;
 x0 = -1;
 xl = 0;
 xN = 1;
@@ -11,38 +11,24 @@ x1 = x0:h:xl;
 x2 = xl:h:xN;
 x = [x1 x2];
 t0 = 0;
-T = 1;
+T = 10;
 
-r0 = 1/30;
-xp = -1/4;
 %%%%%%%%%%%%%
 
 %%%Constant%%%
-cl = 1;
-cr = 1;
-lambda = pi*c/xN;
-
-al = 1;
-bl = 1;
-
-ar = 2;
-br = 8;
-
-sl = sqrt(al*bl);
-sr = sqrt(ar*br);
-
-T = (2*sl)/(sl+sr);
-R = (sl-sr)/(sl+sr);
+c1 = 1;
+c2 = 2;
+% lambda = pi*c1/x2;
 %%%%%%%%%%%
-
-
 
 %%%Boundary conditions%%%
 % u_x0 = 0; u_xN = 0; % Neumann
 
 %%%Initial data%%%
 % u0 = @(x) sin(lambda.*x/c) + 2*sin(2*lambda.*x/c) + sin(3*lambda.*x/c) + sin(4*lambda.*x/c) + sin(5*lambda.*x/c) + sin(6*lambda.*x/c);
-u0 = @(x) ;
+x0 = -1/4;
+r0 = 1/30;
+u0 = @(x) 5*exp(-(x0-x).^2/r0^2);
 u0_t = 0;
 
 %%%Exact solution%%%
@@ -62,11 +48,11 @@ w0_t = 0;
 
 [w,k,t] = timestepper(t0,T,h,A,w0,w0_t);
 figure(1);
-for i = 1:5:length(u)
+for i = 1:1:length(t)
     plot(x,w(:,i), '*b');
-    hold on;
-    plot(x,u_exact(x,t(i)), 'r');
-    hold off;
+%     hold on;
+%     plot(x,u_exact(x,t(i)), 'r');
+%     hold off;
     axis([-1 1 -6 6]);
     pause(0.00000001);
 end
