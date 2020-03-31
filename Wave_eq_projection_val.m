@@ -16,8 +16,19 @@ T = 10;
 %%%%%%%%%%%%%
 
 %%%Constant%%%
-c1 = 1;
-c2 = 2;
+cl = 1;
+cr = 2;
+
+al = 1;
+ar = 2;
+bl = 1;
+br = 8;
+
+sl = sqrt(al*bl);
+sr = sqrt(ar*br);
+
+S = (2*sl)/(sl+sr);
+T = (sl-sr)/(sl+sr);
 % lambda = pi*c1/x2;
 %%%%%%%%%%%
 
@@ -26,7 +37,7 @@ c2 = 2;
 
 %%%Initial data%%%
 % u0 = @(x) sin(lambda.*x/c) + 2*sin(2*lambda.*x/c) + sin(3*lambda.*x/c) + sin(4*lambda.*x/c) + sin(5*lambda.*x/c) + sin(6*lambda.*x/c);
-x0 = -1/4;
+xp = -1/4;
 r0 = 1/30;
 u0 = @(x) 5*exp(-(x0-x).^2/r0^2);
 u0_t = 0;
