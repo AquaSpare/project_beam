@@ -20,15 +20,6 @@ cl = 1;
 cr = 2;
 
 al = 1;
-ar = 2;
-bl = 1;
-br = 8;
-
-sl = sqrt(al*bl);
-sr = sqrt(ar*br);
-
-S = (2*sl)/(sl+sr);
-T = (sl-sr)/(sl+sr);
 % lambda = pi*c1/x2;
 %%%%%%%%%%%
 
