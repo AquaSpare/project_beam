@@ -18,7 +18,7 @@ T = 0.5;
 %%%Constant%%%
 
 al = 1;
-ar = 2;
+ar = 1;
 
 bl = 1;
 br = 8;
@@ -49,10 +49,10 @@ u0_t = 0;
 %u_exact = @(x,t) cos(lambda.*t)*sin(lambda.*x/c) + cos(2*lambda.*t)*2*sin(2*lambda.*x/c) + cos(3*lambda.*t)*sin(3*lambda.*x/c)+ cos(4*lambda.*t)*sin(4*lambda.*x/c) + cos(5*lambda.*t)*sin(5*lambda.*x/c) + cos(6*lambda.*t)*sin(6*lambda.*x/c);
 [D2, H, HI, M, e1, eN, d1, dN] = SBP4(N, h);
 
-clt = 1;
-crt = 2;
+clt = cl;
+crt = cr;
 
-L = [eN -e1; clt^2*dN -crt^2*d1; e1 zeros(1,N); zeros(1,N) eN];
+L = [eN -e1; cl^2*dN -crt^2*d1; e1 zeros(1,N); zeros(1,N) eN];
 H = [H zeros(N); zeros(N) H];
 HI = inv(H);
 
@@ -87,7 +87,7 @@ for i = 1:10:length(t)
 %     hold on;
 %     plot(x,u_exact(x,t(i)), 'r');
 %     hold off;
-    axis([-1 1 -1 1]);
+    axis([-0.6 0.6 -0.6 0.6]);
     pause(0.0000000001);
 end
 
