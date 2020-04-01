@@ -11,7 +11,7 @@ x1 = x0:h:xl;
 x2 = xl:h:xN;
 x = [x1 x2];
 t0 = 0;
-T = 10;
+T = 0.5;
 
 %%%%%%%%%%%%%
 
@@ -72,17 +72,19 @@ end
 
 figure(1)
 
-for i = 1:1:length(t)
+
+
+for i = 1:10:length(t)
     plot(x,w(:,i), '*b');
     hold on
-    plot(x,u_exact(:,i));
+    plot(x,u_exact(:,i),'r');
     hold off
 %     plot(x,u_exact(:,i),'--')
 %     counter = counter +1
 %     hold on;
 %     plot(x,u_exact(x,t(i)), 'r');
 %     hold off;
-    axis([-1 1 -6 6]);
-    pause(0.00000001);
+    axis([-1 1 -1 1]);
+    pause(0.0000000001);
 end
 
