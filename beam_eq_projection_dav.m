@@ -14,7 +14,7 @@ x = [x1 x2];
 %%%%%%%%%%%
 
 %%%Initial data%%%
-x0 = -1/4;
+x0 = 0.6;
 r0 = 1/30;
 u0 = @(x) exp(-(x0-x).^2/r0^2);
 
@@ -48,12 +48,12 @@ w0 = [u0(x1) u0(x2)];
 w0_t = 0;
 
 [w,k,t] = timestepper(t0,T,h,A,w0,w0_t);
-% figure(1);
-% for i = 1:20:length(t)
-%     plot(x,w(:,i));
-% %     hold on;
-% %     plot(x,u_exact(x,t(i)), 'r');
-% %     hold off;
-%     axis([-1 1 -3 3]);
-%     pause(0.00000001);
-% end
+figure(1);
+for i = 1:20:length(t)
+    plot(x,w(:,i));
+%     hold on;
+%     plot(x,u_exact(x,t(i)), 'r');
+%     hold off;
+    axis([-1 1 -3 3]);
+    pause(0.00000001);
+end

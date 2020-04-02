@@ -1,4 +1,4 @@
-%Wavefunction u_tt = c^2u_xx
+%Dynamic Beam Equation u_tt = u_xxxx
 close all
 pause on
 %%%Domain%%%
