@@ -3,7 +3,7 @@ pause on
 clear all
 close all
 %%%Domain%%%
-N = [11 21 41 81 101 201 501];
+N = [16 21 41 81 101 201 501];
 x0 = -1;
 xl = 0;
 xN = 1;
@@ -108,6 +108,10 @@ end
 
 error = zeros(length(N),1);
 
-for i = 1:10:length(N)
-    error(i) = (1./sqrt(N(i))).*norm(u_exact{i,1}-w{i,1});
+for i = 1:length(N)
+    wtest = w{i,1}(:,end);
+    utest = u_exact{i,1}(:,end);
+    error(i) = (1./sqrt(N(i))).*norm(u_exact{i,1}(:,end)-w{i,1}(:,end));
 end
+
+loglog(h,error);
