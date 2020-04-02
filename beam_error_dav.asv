@@ -1,0 +1,10 @@
+[good_solution,good_t,good_x] = beam_eq_projection_dav(101,-1,0,1,0,0.01,1,2,2,2); 
+plot(good_x,good_solution(:,end));
+[good_solution,good_t,good_x] = beam_eq_projection_dav(101,-1,0,1,0,0.01,1,2,4,2);
+plot(good_x,good_solution(:,end));
+[good_solution,good_t,good_x] = beam_eq_projection_dav(101,-1,0,1,0,0.01,1,2,6,2);
+plot(good_x,good_solution(:
+% [solution41,t41,x41] = beam_eq_projection_dav(41,-1,0,1,0,0.1,1,1,2,1);
+% [solution21,t21,x21] = beam_eq_projection_dav(21,-1,0,1,0,0.1,1,1,2,1);
+
+

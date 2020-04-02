@@ -1,4 +1,4 @@
-%function [w,t,x,h,k] = beam_eq_projection_dav(N,x0,xl,xN,t0,T,b1,b2,order,BC)
+function [w,t,x,h,k] = beam_eq_projection_dav(N,x0,xl,xN,t0,T,b1,b2,order,BC)
 close all
 pause on
 %%%Domain%%%
@@ -14,7 +14,9 @@ x = [x1 x2];
 %%%%%%%%%%%
 
 %%%Initial data%%%
-u0 = @(x) cosh(1.50562*pi/0.5.*x) + cos(1.50562*pi/0.5.*x) - ((cos(1.50562*pi) -cosh(1.50562*pi))/(sin(1.50562*pi) - sinh(1.50562*pi)))*(sin(1.50562*pi/0.5.*x) +sinh(1.50562*pi/0.5.*x));
+x0 = 0.6;
+r0 = 1/30;
+u0 = @(x) cosh(1.50562.*x) + cos(1.50562.*x) - ((sin(4.73)-sinh(4.73))/(cosh(4.73)-cos(4.73)))^-1*(sin(4.73/(xN-xl).*x) +sinh(4.73/(xN-xl).*x));
 
 %%%SBP operators%%%
 if(order == 2)
@@ -52,6 +54,6 @@ for i = 1:20:length(t)
 %     hold on;
 %     plot(x,u_exact(x,t(i)), 'r');
 %     hold off;
-    
+    axis([-1 1 -3 3]);
     pause(0.00000001);
 end
