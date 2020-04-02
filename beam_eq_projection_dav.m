@@ -45,7 +45,7 @@ A = (-P*[b1^2*D4 zeros(N); zeros(N) b2^2*D4]*P);
 w0 = [u0(x1) u0(x2)];
 w0_t = 0;
 
-[w,k,t] = timestepperv2(t0,T,h,A,w0,w0_t);
+[w,k,t] = timestepper(t0,T,h,A,w0,w0_t);
 %%%Exact Solution%%%
 u_exact = @(x,t) real(exp(-1i*(22.3733)*t)*u0(x));
 % figure(1);
