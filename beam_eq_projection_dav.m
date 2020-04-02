@@ -54,6 +54,6 @@ for i = 1:20:length(t)
 %     hold on;
 %     plot(x,u_exact(x,t(i)), 'r');
 %     hold off;
-    axis([-1 1 -3 3]);
+    axis([-1 1 -1 1]);
     pause(0.00000001);
 end
