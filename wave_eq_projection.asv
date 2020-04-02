@@ -1,9 +1,8 @@
 %Wavefunction u_tt = c^2u_xx
-pause on 
-clear all
 close all
+pause on 
 %%%Domain%%%
-N = 101;
+N = 201;
 x0 = -1;
 xl = 0;
 xN = 1;
@@ -12,7 +11,7 @@ x1 = x0:h:xl;
 x2 = xl:h:xN;
 x = [x1 x2];
 t0 = 0;
-T = 0.4;
+T = 0.10;
 
 %%%%%%%%%%%%%
 
@@ -74,12 +73,12 @@ for i = 1:length(t)
     
 end
 
-
+figure(1)
 
 
 
 for i = 1:10:length(t)
-    %plot(x,w(:,i), '-*');
+    plot(x,w(:,i), '-*');
     %hold on
     %plot(x,u_exact(:,i),'r');
     %hold off
@@ -88,7 +87,7 @@ for i = 1:10:length(t)
 %     hold on;
 %     plot(x,u_exact(x,t(i)), 'r');
 %     hold off;
-%     axis([-1 1 -0.1 0.6]);
-%     pause(0.0000000001);
+    axis([-1 1 -0.1 0.]);
+    pause(0.0000000001);
 end
 
