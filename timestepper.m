@@ -1,7 +1,11 @@
 function [solution, k, t] = timestepper(t0, T, h, A, u0, u0_t)
 
 %k = 2*h/sqrt(max(abs(eig(A))));
+<<<<<<< HEAD
  k = 0.0001*h;
+=======
+ k = 0.001*h;
+>>>>>>> b37fb26f351043c6734435c6c131adcb39491323
 
 t = t0:k:T;
 solution = zeros(length(u0),length(t));

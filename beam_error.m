@@ -11,7 +11,7 @@ N = 10;
 error = zeros(1,iter);
 steps = zeros(1,iter);
 for i = 1:iter
-    [solution,t,x,h,k] = beam_eq_projection_dav((N*i)+1,0,0.5,1,0,0.18,1,1,4,2);
+    [solution,t,x,h,k] = beam_eq_projection((N*i)+1,0,0.5,1,0,0.18,1,1,4,2);
     exact = u_exact(x,t(end))';
     steps(i) = h;
     error(i) = sqrt(1/(N*i))*norm(exact-solution(:,end),2);
@@ -33,5 +33,4 @@ figure(2)
 plot(t,errortime)
 xlabel('time')
 ylabel('L2 norm of error')
-
 

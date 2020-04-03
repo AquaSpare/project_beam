@@ -115,3 +115,5 @@ for i = 1:length(N)
 end
 
 loglog(h,error);
+xlabel('h')
+ylabel('error')
