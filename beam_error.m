@@ -1,11 +1,12 @@
 %function [w,t,x,h,k] = beam_eq_projection_dav(N,x0,xl,xN,t0,T,b1,b2,order,BC)
 
 close all
+
+%Exakt lösning (typ) för DBE med fria ränder och längd 1.
 u0 = @(x) cosh(1.50562*pi.*x) + cos(1.50562*pi.*x) - ((cos(1.50562*pi) -cosh(1.50562*pi))/(sin(1.50562*pi) - sinh(1.50562*pi)))*(sin(1.50562*pi.*x) +sinh(1.50562*pi.*x));
 u_exact = @(x,t) real(exp(-1i*(22.3733)*t)*u0(x));
-% [solution51,t41,x41] = beam_eq_projection_dav(41,0,0.5,1,0,0.1,1,1,4,2);
-% [solution81,t81,x81] = beam_eq_projection_dav(81,0,0.5,1,0,0.1,1,1,4,2);
-% [solution161,t5161,x161] = beam_eq_projection_dav(161,0,0.5,1,0,0.1,1,1,4,2);
+
+%Konvergensstudie för SBP-order 4
 iter = 8;
 N = 10;
 error = zeros(1,iter);
@@ -22,6 +23,7 @@ xlabel('log(h)')
 ylabel('L2 norm of error')
 
 
+%tar fram felet över tid, ser hur det växer.
 [solution,t,x,h,k] = beam_eq_projection_dav(41,0,0.5,1,0,20,1,1,4,2);
 exact = zeros(size(solution));
 errortime = zeros(1,length(t));
