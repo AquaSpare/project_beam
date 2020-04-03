@@ -59,7 +59,7 @@ for i = 1:200:length(t)
     if(b1 == b2)
         hold on;
         plot(x,u_exact(x,t(i)), 'g');
-        axis([0 1 -2 2])
+        axis([-1 1 -2 2])
         hold off;
     end
     pause(0.00000001);
