@@ -17,7 +17,7 @@ T = 1;
 
 %%%Constants%%%
 b1 = 1;
-b2 = 10;
+b2 = 100;
 
 %%% Initial condition %%%
 x0 = -1/4;
@@ -32,7 +32,10 @@ u0_t = 0;
 [D4, H, HI, M, e1, eN, d1_1, dN_1, d1_2, dN_2, d1_3, dN_3] = SBP4_D4(N, h);
 
 %%%% Boundary conditions %%%%
+%%%
 L = [eN -e1; dN_1 -d1_1; b1*dN_2 -b2*d1_2; b1*dN_3 -b2*d1_3; e1 zeros(1,N); d1_2 zeros(1,N); zeros(1,N) eN; zeros(1,N) dN_2];
+
+
 H = [H zeros(N); zeros(N) H];
 HI = inv(H);
 P = [eye(N) zeros(N); zeros(N) eye(N)] - HI*L'*inv(L*HI*L')*L;
