@@ -17,7 +17,7 @@
 
 %%%% Stor skillnad i b kräver mindre k. När t.ex. b1=1, b2=100 krävs minst k = 0.00001*h.
 
-function [w,t,x,h,k] = beam_eq_projection(N, x0, xl, xN, T, b1, b2, order, BC, plotspeed, k_ratio)
+function [w,t,x,h,k] = beam_eq_projection_integlobalP(N, x0, xl, xN, T, b1, b2, order, BC, plotspeed, k_ratio)
 close all
 pause on
 %%%Domain%%%
@@ -47,21 +47,39 @@ elseif(order == 6)
     [D4, H, HI, M, e1, eN, d1_1, dN_1, d1_2, dN_2, d1_3, dN_3] = SBP6_D4(N, h);
 end
 
-%%%Boundary Conditions%%%
+
+%%%Boundary conditions Left%%%
 if(BC == 1)%clamped
-    L = [eN -e1; dN_1 -d1_1; b1*dN_2 -b2*d1_2; b1*dN_3 -b2*d1_3; e1 zeros(1,N); d1_1 zeros(1,N); zeros(1,N) eN; zeros(1,N) dN_1];
+    L_left = [e1; d1_1];
 elseif(BC == 2)%free
-    L = [eN -e1; dN_1 -d1_1; b1*dN_2 -b2*d1_2; b1*dN_3 -b2*d1_3; d1_2 zeros(1,N); d1_3 zeros(1,N); zeros(1,N) dN_2; zeros(1,N) dN_3];
+    L_left = [d1_2; d1_3] ;
 elseif(BC == 3)%sliding
-    L = [eN -e1; dN_1 -d1_1; b1*dN_2 -b2*d1_2; b1*dN_3 -b2*d1_3; d1_1 zeros(1,N); d1_3 zeros(1,N); zeros(1,N) dN_1; zeros(1,N) dN_3];
+    L_left = [d1_1, d1_3]; 
 elseif(BC == 4)%hinged
-    L = [eN -e1; dN_1 -d1_1; b1*dN_2 -b2*d1_2; b1*dN_3 -b2*d1_3; e1 zeros(1,N); d1_2 zeros(1,N); zeros(1,N) eN; zeros(1,N) dN_2];
+    L_left = [e1; d1_2];
 end
 
-H = [H zeros(N); zeros(N) H];
-HI = inv(H);
-P = [eye(N) zeros(N); zeros(N) eye(N)] - HI*L'*inv(L*HI*L')*L;
-A = (-P*[b1*D4 zeros(N); zeros(N) b2*D4]*P);
+%%Boundary Condition Right%%%
+if(BC == 1)%clamped
+    L_right = [eN; dN_1];
+elseif(BC == 2)%free
+    L_right = [dN_2; dN_3];
+elseif(BC == 3)%sliding
+    L_right = [dN_1; dN_3];
+elseif(BC == 4)%hinged
+    L_right = [eN; dN_2];
+end
+
+%%%Inner boundary%%%
+L_inner = [eN -e1; dN_1 -d1_1; b1*dN_2 -b2*d1_2; b1*dN_3 -b2*d1_3];
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+H_big = [H zeros(N); zeros(N) H];
+H_bigI = inv(H_big);
+P_left = eye(N) - HI*L_left'*inv(L_left*HI*L_left')*L_left;
+P_right = eye(N) - HI*L_right'*inv(L_right*HI*L_right')*L_right;
+P_inner = [eye(N) zeros(N); zeros(N) eye(N)] - H_bigI*L_inner'*inv(L_inner*H_bigI*L_inner')*L_inner;
+A = (-P_inner*[b1^2*P_left*D4*P_left zeros(N); zeros(N) b2^2*P_right*D4*P_right]*P_inner);
 
 
 w0 = [u0(x1) u0(x2)];

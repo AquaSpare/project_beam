@@ -1,37 +1,13 @@
 %function [w,t,x,h,k] = beam_eq_projection_dav(N,x0,xl,xN,t0,T,b1,b2,order,BC)
 
 close all
-% Exact solution for x = [0 1] and free ends: BC = 2.
-u0 = @(x) cosh(1.50562*pi.*x) + cos(1.50562*pi.*x) - ((cos(1.50562*pi) -cosh(1.50562*pi))/(sin(1.50562*pi) - sinh(1.50562*pi)))*(sin(1.50562*pi.*x) +sinh(1.50562*pi.*x));
-u_exact = @(x,t) real(exp(-1i*(22.3733)*t)*u0(x));
 
+[u,v] = beam_ana();
 
-iter = 8;
-N = 10;
-error = zeros(1,iter);
-steps = zeros(1,iter);
-for i = 1:iter
-    [solution,t,x,h,k] = beam_eq_projection_dav((N*i)+1,0,0.5,1,0,0.18,1,1,4,2);
-    exact = u_exact(x,t(end))';
-    steps(i) = h;
-    error(i) = sqrt(1/(N*i))*norm(exact-solution(:,end),2);
-end
-figure(1)
-loglog(steps,error,'*')
-xlabel('log(h)')
-ylabel('L2 norm of error')
+[w,t,x,h,k] =  beam_eq_projection(81,-1,0,1,0.1,1,4,4,2,20, 0.0001);
+N = 81
+x1 = 0:h:N;
+x2 = N:h:2*N;
+w_ana = [u(x1,t) v(x2,t)];
 
-
-[solution,t,x,h,k] = beam_eq_projection_dav(41,0,0.5,1,0,20,1,1,4,2);
-exact = zeros(size(solution));
-errortime = zeros(1,length(t));
-for i =1:length(t)
-    exact(:,i) = u_exact(x,t(i));
-    errortime(i) = sqrt(1/40)*norm(exact(:,i) - solution(:,i),2);
-end
-figure(2)
-plot(t,errortime)
-xlabel('time')
-ylabel('L2 norm of error')
-
-
+norm(w-w_ana,2)
