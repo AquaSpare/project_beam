@@ -27,13 +27,13 @@ w0 = u0(x);
 HI = inv(H);
 
 %------Clamped-------
-%L = [e1;eN;d1_1;dN_1];
+L = [e1;eN;d1_1;dN_1];
 %------Hinged--------
 %L = [e1;eN;d1_2;dN_2];
 %------Sliding-------
 %L = [d1_1;dN_1;d1_3;dN_3];
 %-------Free---------
-L = [d1_2;dN_2;d1_3;dN_3];
+%L = [d1_2;dN_2;d1_3;dN_3];
 
 P = eye(N)-HI*L'*inv(L*HI*L')*L;
 A = -b.*P*D4*P;
@@ -43,6 +43,6 @@ A = -b.*P*D4*P;
 for i = 1:length(t)
     plot(x,w(:,i))
     axis([0 1 -1 5])
-    pause(0.00001)
+    pause(0.001)
 end
 
