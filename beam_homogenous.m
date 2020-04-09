@@ -38,7 +38,7 @@ L = [e1;eN;d1_1;dN_1];
 P = eye(N)-HI*L'*inv(L*HI*L')*L;
 A = -b.*P*D4*P;
 
-[w, k, t] = timestepper(t0, T, h, A, w0, w0_t);
+[w, k, t] = timestepper(t0, T, h, A, w0, w0_t, 0.0001);
 
 for i = 1:length(t)
     plot(x,w(:,i))
