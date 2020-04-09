@@ -3,7 +3,7 @@ pause on
 clear all
 close all
 %%%Domain%%%
-N = [16 21 41 81 101 201 501];
+N = [ 21 41 81 101 201 501 1001];
 x0 = -1;
 xl = 0;
 xN = 1;
@@ -115,3 +115,7 @@ for i = 1:length(N)
 end
 
 loglog(h,error);
+hold on 
+xlabel('step size')
+ylabel('error')
+title('Convergence')
