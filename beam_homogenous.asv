@@ -1,7 +1,7 @@
 %exempel
-%beam_homogenous(81,0,1,0.18,1,4,4,500,0.0001,1)
+%beam_homogenous(81,0,1,0.18,1,4,4,500,0.0001)
 
-function [w,t,x,h,k] = beam_homogenous(N,x0,xl,T,b,order,BC,plotspeed,kratio,plotornot)
+function [w,t,x,h,k] = beam_homogenous(N,x0,xl,T,b,order,BC,plotspeed,kratio,plot)
 close all
 pause on
 
@@ -57,12 +57,11 @@ A = -b.*P*D4*P;
 
 [w, k, t] = timestepper(T, h, A, w0, w0_t, kratio);
 
-if plotornot == 1
-    for i = 1:plotspeed:length(t)
-        plot(x,w(:,i))
-        axis([0 1 -5 5])
-        pause(0.00000001)
-    end
+if plot == 1
+for i = 1:plotspeed:length(t)
+    plot(x,w(:,i))
+    axis([0 1 -5 5])
+    pause(0.00000001)
 end
 end
 
