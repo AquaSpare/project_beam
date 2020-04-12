@@ -11,7 +11,7 @@ x1 = x0:h:xl;
 x2 = xl:h:xN;
 x = [x1 x2];
 t0 = 0;
-T = 10;
+T = 2;
 
 %%%%%%%%%%%%%
 
@@ -46,10 +46,10 @@ A = (P*[c1^2*D2 zeros(N); zeros(N) c2^2*D2]*P);
 w0 = [u0(x1) u0(x2)];
 w0_t = 0;
 
-[w,k,t] = timestepper(t0,T,h,A,w0,w0_t);
+[w,k,t] = timestepper(T,h,A,w0,w0_t, 0.01);
 figure(1);
-for i = 1:1:length(t)
-    plot(x,w(:,i), '*b');
+for i = 1:100:length(t)
+    plot(x1, w(1:N,i), 'b', x2, w(N+1:end,i), 'r');
 %     hold on;
 %     plot(x,u_exact(x,t(i)), 'r');
 %     hold off;
