@@ -12,12 +12,10 @@ N = 10;
 error = zeros(1,iter);
 steps = zeros(1,iter);
 for i = 1:iter
-    [solution,t,x,h,k] = beam_eq_projection((N*i)+1,0,0.5,1,0.18,1,1,4,2,300,0.00001);
+    [solution,t,x,h,k] = beam_eq_projection((N*i)+1,0,0.5,1,0.18,1,1,4,2,2000,0.00001);
     exact = u_exact(x,t(end))';
     steps(i) = h;
     error(i) = sqrt(1/(N*i))*norm(exact-solution(:,end),2);
-    
-
 end
 figure(1)
 loglog(steps,error,'r*')
