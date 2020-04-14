@@ -1,8 +1,8 @@
 close all
-
+Beta = 4.73004074486270402602404810;
 %exakt lösning och begynnelsevärde för fria ränder
-u0 = @(x) cosh(1.50562*pi.*x) + cos(1.50562*pi.*x) - ((cos(1.50562*pi) -cosh(1.50562*pi))/(sin(1.50562*pi) - sinh(1.50562*pi)))*(sin(1.50562*pi.*x) +sinh(1.50562*pi.*x));
-u_exact = @(x,t) real(exp(-1i*(22.3733)*t)*u0(x));
+u0 = @(x) cosh(Beta.*x) + cos(Beta.*x) - ((cos(Beta) -cosh(Beta))/(sin(Beta) - sinh(Beta)))*(sin(Beta.*x) +sinh(Beta.*x));
+u_exact = @(x,t) real(exp(-1i*(Beta^2)*t)*u0(x));
 
 %konvergens för SBP4 
 
