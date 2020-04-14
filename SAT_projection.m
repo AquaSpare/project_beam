@@ -41,8 +41,8 @@ end
 
 l_u = -a1*D4 + a1*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
 r_u = a2*HI*(d1_1'*d1_2 - e1'*d1_3);
-r_l = -a1*D4 + a1*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
-l_l = a2*HI*(-dN_1'*dN_2 + eN'*dN_3);
+l_l = a1*HI*(-dN_1'*dN_2 + eN'*dN_3);
+r_l = -a2*D4 + a2*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
 
 H = [H zeros(N); zeros(N) H];
 HI = inv(H);
