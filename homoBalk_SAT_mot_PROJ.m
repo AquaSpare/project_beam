@@ -6,7 +6,7 @@ u_exact = @(x,t) real(exp(-1i*(22.3733)*t)*u0(x));
 
 %konvergens för SBP4 
 
-iter = 5;
+iter = 7;
 N = 20;
 errorProj = zeros(1,iter);
 errorSAT = zeros(1,iter);
