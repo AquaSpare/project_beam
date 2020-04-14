@@ -1,3 +1,6 @@
+
+%%%% BARA BC = 2 %%%%
+
 function [w,t,x,h,k] = SAT_projection(N, x0, xl, xN, T, a1, a2, order, BC, plotspeed, k_ratio)
 close all
 pause on
@@ -31,24 +34,27 @@ end
 %%%Boundary Conditions%%%
 if(BC == 1)%clamped
     L = [eN -e1; dN_1 -d1_1; e1 zeros(1,N); d1_1 zeros(1,N); zeros(1,N) eN; zeros(1,N) dN_1];
+    %r_l = -a2*D4 + a2*HI*((d1_3 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2); 
+    %l_u = -a1*D4 + a1*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
 elseif(BC == 2)%free
     L = [eN -e1; dN_1 -d1_1];
+    l_u = -a1*D4 + a1*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
+    r_l = -a2*D4 + a2*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
 elseif(BC == 3)%sliding
     L = [eN -e1; dN_1 -d1_1; d1_1 zeros(1,N); d1_3 zeros(1,N); zeros(1,N) dN_1; zeros(1,N) dN_3];
+    %r_l = -a2*D4 + a2*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
+    %l_u = -a1*D4 + a1*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
 elseif(BC == 4)%hinged
     L = [eN -e1; dN_1 -d1_1; e1 zeros(1,N); d1_2 zeros(1,N); zeros(1,N) eN; zeros(1,N) dN_2];
+    %r_l = -a2*D4 + a2*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
+    %l_u = -a1*D4 + a1*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
 end
-
-l_u = -a1*D4 + a1*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
-r_u = a2*HI*(d1_1'*d1_2 - e1'*d1_3);
-l_l = a1*HI*(-dN_1'*dN_2 + eN'*dN_3);
-r_l = -a2*D4 + a2*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
 
 H = [H zeros(N); zeros(N) H];
 HI = inv(H);
 P = [eye(N) zeros(N); zeros(N) eye(N)] - HI*L'*inv(L*HI*L')*L;
 
-A = P*[l_u r_u; l_l r_l]*P;
+A = P*[l_u zeros(N); zeros(N) r_l]*P;
 
 
 w0 = [u0(x1) u0(x2)];
