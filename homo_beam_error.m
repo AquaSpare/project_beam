@@ -14,10 +14,10 @@ steps = zeros(1,iter);
 
 
 for i = 1:iter
-    [sol,t,x,h,k] = beam_homogenous((N*i)+1,0,1,0.2,1,4,4,500,0.00001,0);
+    [sol,t,x,h,k] = beam_homogenous((N*i)+1,0,1,0.14,1,4,4,500,0.00001,0);
     exact = u_exact(x,t(end));
     steps(i) = h;
-    error(i) = sqrt(1/(N*i))*norm(exact-sol(:,end),2);
+    error(i) = sqrt(1/(N*i))*norm(exact'-sol(:,end),2);
 end
 
 figure(1)
