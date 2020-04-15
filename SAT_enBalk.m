@@ -4,7 +4,9 @@ h = (xN-x0)/(N-1);
 x = x0:h:xN;
 %%%initial conditions%%%
 %Fria ränder
-u0 = @(x) cosh(1.50562*pi.*x) + cos(1.50562*pi.*x) - ((cos(1.50562*pi) -cosh(1.50562*pi))/(sin(1.50562*pi) - sinh(1.50562*pi)))*(sin(1.50562*pi.*x) +sinh(1.50562*pi.*x));
+Beta = 4.73004074486270402602404810;
+u0 = @(x) cosh(Beta.*x) + cos(Beta.*x) - ((cos(Beta) -cosh(Beta))/(sin(Beta) - sinh(Beta)))*(sin(Beta.*x) +sinh(Beta.*x));
+u_exact = @(x,t) real(exp(-1i*(Beta^2)*t)*u0(x));
 u0_t = 0;
 %%%%%%%
 

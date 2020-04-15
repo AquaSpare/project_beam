@@ -20,7 +20,7 @@ for i = 1:iter
     stepsProj(i) = hProj;
     errorProj(i) = sqrt(1/(N*i))*norm(exact'-solProj(:,end),2);
     
-    [solSAT, tSAT, xSAT, hSAT, kSAT] = SAT_enBalk((N*i)+1,0,1,0.14, 1, 4, 2, 500, 0.00001,0);
+    [solSAT, tSAT, xSAT, hSAT, kSAT] = SAT_enBalk((N*i)+1,0,1,0.14, 1, 4, 2, 500, 0.00001,0,1);
     exact = u_exact(xSAT,tSAT(end));
     stepsSAT(i) = hSAT;
     errorSAT(i) = sqrt(1/(N*i))*norm(exact'-solSAT(:,end),2);
