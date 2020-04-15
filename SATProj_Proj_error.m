@@ -12,12 +12,7 @@ stepsSAT = zeros(1,iter);
 
 
 for i = 1:iter
-<<<<<<< HEAD
-    
     [solProj,tProj,xProj,hProj,kProj] = beam_eq_projection((N*i)+1,-1,0,1,0.14,1,4,4,2,100,0.0001,{u,v});
-=======
-    [solProj,tProj,xProj,hProj,kProj] = beam_eq_projection_dav((N*i)+1,-1,0,1,0.14,1,4,4,2,0.0001,{u,v});
->>>>>>> 5e98781d4356a2722b6a702013f02998bfd5a830
     exact = [u(xProj(1:(N*i)+1),tProj(end)) v(xProj((N*i)+2:end),tProj(end))];
     stepsProj(i) = hProj;
     errorProj(i) = sqrt(1/(N*i))*norm(exact'-solProj(:,end),2);
