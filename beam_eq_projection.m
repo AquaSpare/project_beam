@@ -17,7 +17,7 @@
 
 %%%% Stor skillnad i b kräver mindre k. När t.ex. b1=1, b2=100 krävs minst k = 0.00001*h.
 
-function [w,t,x,h,k] = beam_eq_projection(N, x0, xl, xN, T, b1, b2, order, BC, plotspeed, k_ratio, IC, plotornot)
+function [w,t,x,h,k] = beam_eq_projection(N, x0, xl, xN, T, b1, b2, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion)
 close all
 pause on
 %%%Domain%%%
@@ -64,8 +64,11 @@ A = (-P*[b1*D4 zeros(N); zeros(N) b2*D4]*P);
 
 w0 = [u0 v0];
 w0_t = 0;
-
-[w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio);
+if timestepperversion == 1
+    [w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio);
+elseif timestepperversion == 2
+    [w,k,t] = timestepperv2(T,h,A,w0,w0_t,k_ratio);
+end
 
 %%%Exact Solution%%%
 if plotornot == 1

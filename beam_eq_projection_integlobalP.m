@@ -17,7 +17,7 @@
 
 %%%% Stor skillnad i b kräver mindre k. När t.ex. b1=1, b2=100 krävs minst k = 0.00001*h.
 
-function [w,t,x,h,k] = beam_eq_projection_integlobalP(N, x0, xl, xN, T, b1, b2, order, BC, plotspeed, k_ratio, IC)
+function [w,t,x,h,k] = beam_eq_projection_integlobalP(N, x0, xl, xN, T, b1, b2, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion)
 close all
 pause on
 %%%Domain%%%
@@ -84,21 +84,27 @@ A = (-P_inner*[b1^2*P_left*D4*P_left zeros(N); zeros(N) b2^2*P_right*D4*P_right]
 w0 = [u0 v0];
 w0_t = u0_t;
 
-[w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio);
+if timestepperversion == 1
+    [w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio);
+elseif timestepperversion == 2
+    [w,k,t] = timestepperv2(T,h,A,w0,w0_t,k_ratio);
+end
 
 %%%Exact Solution%%%
-u_exact = @(x,t) real(exp(-1i*(22.3733)*t)*u0(x));
-figure(1);
-for i = 1:plotspeed:length(t)
-    if(b1 == b2 && BC == 2 && x0 == 0 && xN == 1)
-        plot(x1, w(1:N,i), '*b', x2, w(N+1:end,i), '*r');
-        hold on;
-        plot(x,u_exact(x,t(i)), 'g');
-        axis([0 1 -2 2]);
-        hold off;
-    else 
-        plot(x1, w(1:N,i), 'b', x2, w(N+1:end,i), 'r');
-        axis([x0 xN -1 1]);
+if plotornot == 1
+    u_exact = @(x,t) real(exp(-1i*(22.3733)*t)*u0(x));
+    figure(1);
+    for i = 1:plotspeed:length(t)
+        if(b1 == b2 && BC == 2 && x0 == 0 && xN == 1)
+            plot(x1, w(1:N,i), '*b', x2, w(N+1:end,i), '*r');
+            hold on;
+            plot(x,u_exact(x,t(i)), 'g');
+            axis([0 1 -2 2]);
+            hold off;
+        else 
+            plot(x1, w(1:N,i), 'b', x2, w(N+1:end,i), 'r');
+            axis([x0 xN -1 1]);
+        end
+        pause(0.00000001);
     end
-    pause(0.00000001);
 end

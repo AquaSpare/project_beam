@@ -59,7 +59,11 @@ A = P*[l_u zeros(N); zeros(N) r_l]*P;
 w0 = [u0 v0];
 w0_t = u0_t;
 
-[w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio);
+if timestepperversion == 1
+    [w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio);
+elseif timestepperversion == 2
+    [w,k,t] = timestepperv2(T,h,A,w0,w0_t,k_ratio);
+end
 
 %%%Exact Solution%%%
 u_exact = @(x,t) real(exp(-1i*(22.3733)*t)*u0(x));

@@ -1,9 +1,8 @@
-function [solution, k, t] = timestepperv2(t0, T, h, A, u0, u0_t)
+function [solution, k, t] = timestepperv2(T, h, A, u0, u0_t, k_ratio)
 
-k = 2*h/sqrt(max(abs(eig(A))));
-%k = 0.1*h;
+k = k_ratio*h;
 
-t = t0:k:T;
+t = 0:k:T;
 solution = zeros(length(u0),3);
 solution(:,1) = u0;
 solution(:,2) = k*u0_t' + 0.5*k^2*A*u0' + u0';
