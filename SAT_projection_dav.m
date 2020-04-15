@@ -1,4 +1,6 @@
-function [w,t,x,h,k] = SAT_projection(N, x0, xl, xN, T, a1, a2, order, BC, plotspeed, k_ratio)
+%%%% BARA BC = 2 %%%%
+
+function [w,t,x,h,k] = SAT_projection_dav(N, x0, xl, xN, T, a1, a2, order, BC, plotspeed, k_ratio, IC)
 close all
 pause on
 %%%Domain%%%
@@ -13,9 +15,8 @@ if(a1 == a2 && BC == 2 && x0 == 0 && xN == 1) %%%%%%exact solution exists
     u0 = @(x) cosh(1.50562*pi.*x) + cos(1.50562*pi.*x) - ((cos(1.50562*pi) -cosh(1.50562*pi))/(sin(1.50562*pi) - sinh(1.50562*pi)))*(sin(1.50562*pi.*x) +sinh(1.50562*pi.*x));
     u0_t = 0;
 else 
-    xr = -1/4;
-    r0 = 1/30;
-    u0 = @(x) exp(-(xr-x).^2/r0^2);
+    u0 = IC{1}(x1,0);
+    v0 = IC{2}(x2,0);
     u0_t = 0;
 end
 
@@ -31,33 +32,30 @@ end
 %%%Boundary Conditions%%%
 if(BC == 1)%clamped
     L = [eN -e1; dN_1 -d1_1; e1 zeros(1,N); d1_1 zeros(1,N); zeros(1,N) eN; zeros(1,N) dN_1];
+    %r_l = -a2*D4 + a2*HI*((d1_3 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2); 
+    %l_u = -a1*D4 + a1*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
 elseif(BC == 2)%free
     L = [eN -e1; dN_1 -d1_1];
+    l_u = -a1*D4 + a1*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
+    r_l = -a2*D4 + a2*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
 elseif(BC == 3)%sliding
     L = [eN -e1; dN_1 -d1_1; d1_1 zeros(1,N); d1_3 zeros(1,N); zeros(1,N) dN_1; zeros(1,N) dN_3];
+    %r_l = -a2*D4 + a2*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
+    %l_u = -a1*D4 + a1*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
 elseif(BC == 4)%hinged
     L = [eN -e1; dN_1 -d1_1; e1 zeros(1,N); d1_2 zeros(1,N); zeros(1,N) eN; zeros(1,N) dN_2];
+    %r_l = -a2*D4 + a2*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
+    %l_u = -a1*D4 + a1*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
 end
-
-l_u = -a1*D4 + a1*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2) + a1*HI*(-dN_1'*dN_2 + eN'*dN_3);
-
-%den hör hamnar i r_l
-% r_u = a2*HI*(d1_1'*d1_2 - e1'*d1_3);
-
-%Den här hamnar i l_u
-% l_l = a1*HI*(-dN_1'*dN_2 + eN'*dN_3);
-r_l = -a2*D4 + a2*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2) + a2*HI*(d1_1'*d1_2 - e1'*d1_3);
 
 H = [H zeros(N); zeros(N) H];
 HI = inv(H);
 P = [eye(N) zeros(N); zeros(N) eye(N)] - HI*L'*inv(L*HI*L')*L;
 
-%så blir det såhär, man lägger in SAT i liksom vardera. inga blandningar
-%verkar det som
 A = P*[l_u zeros(N); zeros(N) r_l]*P;
 
 
-w0 = [u0(x1) u0(x2)];
+w0 = [u0 v0];
 w0_t = u0_t;
 
 [w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio);

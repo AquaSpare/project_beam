@@ -17,7 +17,7 @@
 
 %%%% Stor skillnad i b kräver mindre k. När t.ex. b1=1, b2=100 krävs minst k = 0.00001*h.
 
-function [w,t,x,h,k] = beam_eq_projection_integlobalP(N, x0, xl, xN, T, b1, b2, order, BC, plotspeed, k_ratio)
+function [w,t,x,h,k] = beam_eq_projection_integlobalP(N, x0, xl, xN, T, b1, b2, order, BC, plotspeed, k_ratio, IC)
 close all
 pause on
 %%%Domain%%%
@@ -29,12 +29,11 @@ x = [x1 x2];
 
 %%% Initial condition %%%
 if(b1 == b2 && BC == 2 && x0 == 0 && xN == 1) %%%%%%exact solution exists 
-    u0 = @(x) cosh(1.50562*pi.*x) + cos(1.50562*pi.*x) - ((cos(1.50562*pi) -cosh(1.50562*pi))/(sin(1.50562*pi) - sinh(1.50562*pi)))*(sin(1.50562*pi.*x) +sinh(1.50562*pi.*x));
-    u0_t = 0;
+   % u0 = @(x) cosh(1.50562*pi.*x) + cos(1.50562*pi.*x) - ((cos(1.50562*pi) -cosh(1.50562*pi))/(sin(1.50562*pi) - sinh(1.50562*pi)))*(sin(1.50562*pi.*x) +sinh(1.50562*pi.*x));
+    %u0_t = 0;
 else 
-    xr = -1/4;
-    r0 = 1/30;
-    u0 = @(x) exp(-(xr-x).^2/r0^2);
+    u0 = IC{1}(x1,0);
+    v0 = IC{2}(x2,0);
     u0_t = 0;
 end
 
@@ -82,7 +81,7 @@ P_inner = [eye(N) zeros(N); zeros(N) eye(N)] - H_bigI*L_inner'*inv(L_inner*H_big
 A = (-P_inner*[b1^2*P_left*D4*P_left zeros(N); zeros(N) b2^2*P_right*D4*P_right]*P_inner);
 
 
-w0 = [u0(x1) u0(x2)];
+w0 = [u0 v0];
 w0_t = u0_t;
 
 [w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio);

@@ -1,4 +1,4 @@
-function [w,t,x,h,k] = beam_eq_projection_dav(N,x0,xl,xN,t0,T,b1,b2,order,BC)
+function [w,t,x,h,k] = beam_eq_projection_dav(N,x0,xl,xN,t0,T,b1,b2,order,BC,k_ratio,IC)
 close all
 pause on
 %%%Domain%%%
@@ -14,7 +14,8 @@ x = [x1 x2];
 %%%%%%%%%%%
 
 %%%Initial data%%%
-u0 = @(x) cosh(1.50562*pi.*x) + cos(1.50562*pi.*x) - ((cos(1.50562*pi) -cosh(1.50562*pi))/(sin(1.50562*pi) - sinh(1.50562*pi)))*(sin(1.50562*pi.*x) +sinh(1.50562*pi.*x));
+u0 = IC{1}(x1,0);
+v0 = IC{2}(x2,0);
 
 %%%SBP operators%%%
 if(order == 2)
@@ -42,19 +43,9 @@ P = [eye(N) zeros(N); zeros(N) eye(N)] - HI*L'*inv(L*HI*L')*L;
 
 A = (-P*[b1^2*D4 zeros(N); zeros(N) b2^2*D4]*P);
 
-w0 = [u0(x1) u0(x2)];
+w0 = [u0 v0];
 w0_t = 0;
 
-[w,k,t] = timestepper(t0,T,h,A,w0,w0_t);
+[w,k,t] = timestepper(T,h,A,w0,w0_t,k_ratio);
 %%%Exact Solution%%%
-u_exact = @(x,t) real(exp(-1i*(22.3733)*t)*u0(x));
-% figure(1);
-% for i = 1:200:length(t)
-%     plot(x,w(:,i),'b*');
-% %     axis([0 1 -2 2])
-% %     hold on;
-% %     plot(x,u_exact(w0,t(i)), 'r');
-% %     hold off;
-%     
-%     pause(0.00000001);
-% end
+
