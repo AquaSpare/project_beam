@@ -29,4 +29,4 @@ hold on
 loglog(stepsSAT,errorSAT,'b*')
 xlabel('log(h)')
 ylabel('L2 norm of error')
-legend('Pure Projection', 'Outer SAT, inner Mix', 'Outer Projection, inner Mix');
+legend('Pure Projection', 'Outer SAT, inner Mix', 'Outer);
