@@ -54,7 +54,6 @@ P = [eye(N) zeros(N); zeros(N) eye(N)] - HI*L'*inv(L*HI*L')*L;
 
 A = P*[l_u zeros(N); zeros(N) r_l]*P;
 
-
 w0 = [u0 v0];
 w0_t = 0;
 

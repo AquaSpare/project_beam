@@ -1,4 +1,4 @@
-function [u, t, x, h, k] = SAT_enBalk(N,x0,xN,T, b, order, BC, plotspeed, k_ratio,plotornot)
+function [u, t, x, h, k] = SAT_enBalk(N,x0,xN,T, b, order, BC, plotspeed, k_ratio,plotornot, timestepperversion)
 
 h = (xN-x0)/(N-1);
 x = x0:h:xN;
@@ -22,8 +22,11 @@ if BC == 2 %free
 end
 
 A = -D4 + SAT;
-
-[u,k,t] = timestepper(T,h,A,u0(x),u0_t,k_ratio);
+if timestepperversion == 1
+    [u,k,t] = timestepper(T,h,A,u0(x),u0_t,k_ratio);
+elseif timestepperversion == 2
+    [u,k,t] = timestepperv2(T,h,A,u0(x),u0_t,k_ratio);
+end
 %%%Exact Solution%%%
 u_exact = @(x,t) real(exp(-1i*(22.3733)*t)*u0(x));
 if plotornot == 1
