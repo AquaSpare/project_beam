@@ -1,7 +1,7 @@
 %exempel
 %beam_homogenous(81,0,1,0.18,1,4,4,500,0.0001,1)
 
-function [w,t,x,h,k] = beam_homogenous(N,x0,xl,T,b,order,BC,plotspeed,k_ratio,plotornot)
+function [w,t,x,h,k] = beam_homogenous(N,x0,xl,T,b,order,BC,plotspeed,k_ratio,plotornot, timestepperversion)
 close all
 pause on
 
@@ -58,8 +58,11 @@ end
 P = eye(N)-HI*L'*inv(L*HI*L')*L;
 A = -b.*P*D4*P;
 
-[w, k, t] = timestepper(T, h, A, w0, w0_t, k_ratio);
-
+if timestepperversion == 1
+    [w,k,t] = timestepper(T,h,A,w0,w0_t,k_ratio);
+elseif timestepperversion == 2
+    [w,k,t] = timestepperv2(T,h,A,w0,w0_t,k_ratio);
+end
 %exact soliution for special case
 u_exact = @(x,t) real(exp(-1i*(Beta^2)*t)*u0(x));
 
