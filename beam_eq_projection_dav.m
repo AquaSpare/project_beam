@@ -1,4 +1,4 @@
-function [w,t,x,h,k] = beam_eq_projection_dav(N,x0,xl,xN,t0,T,b1,b2,order,BC,k_ratio,IC)
+function [w,t,x,h,k] = beam_eq_projection_dav(N,x0,xl,xN,T,b1,b2,order,BC,k_ratio,IC)
 close all
 pause on
 %%%Domain%%%

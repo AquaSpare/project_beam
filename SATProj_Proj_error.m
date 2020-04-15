@@ -1,7 +1,7 @@
 
 
 
-[u,v] = beam_ana()
+[u,v] = beam_ana();
 
 iter = 7;
 N = 15;
@@ -12,7 +12,7 @@ stepsSAT = zeros(1,iter);
 
 
 for i = 1:iter
-    [solProj,tProj,xProj,hProj,kProj] = beam_eq_projection_dav((N*i)+1,-1,0,1,0,0.14,1,4,4,2,0.0001,{u,v});
+    [solProj,tProj,xProj,hProj,kProj] = beam_eq_projection_dav((N*i)+1,-1,0,1,0.14,1,4,4,2,0.0001,{u,v});
     exact = [u(xProj(1:(N*i)+1),tProj(end)) v(xProj((N*i)+2:end),tProj(end))];
     stepsProj(i) = hProj;
     errorProj(i) = sqrt(1/(N*i))*norm(exact'-solProj(:,end),2);
