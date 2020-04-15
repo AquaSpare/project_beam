@@ -7,17 +7,17 @@ u_exact = @(x,t) real(exp(-1i*(22.3733)*t)*u0(x));
 
 %konvergens för SBP4 
 
-iter = 5;
-N = 10;
+iter = 1;
+N = 150;
 error = zeros(1,iter);
 steps = zeros(1,iter);
 
 
 for i = 1:iter
-    [sol,t,x,h,k] = beam_homogenous((N*i)+1,0,1,0.2,1,4,4,500,0.00001,0);
+    [sol,t,x,h,k] = beam_homogenous((N*i)+1,0,1,0.14,1,4,4,500,0.00001,0);
     exact = u_exact(x,t(end));
     steps(i) = h;
-    error(i) = sqrt(1/(N*i))*norm(exact-sol(:,end),2);
+    error(i) = sqrt(1/(N*i))*norm(exact'-sol(:,end),2);
 end
 
 figure(1)

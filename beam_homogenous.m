@@ -37,7 +37,7 @@ elseif order == 6
     [D4, H, HI, M, e1, eN, d1_1, dN_1, d1_2, dN_2, d1_3, dN_3] = SBP6_D4(N, h);
 end
 
-HI = inv(H);
+%HI = inv(H);
 
 %------------Boundary conditions--------------
 if BC == 1
