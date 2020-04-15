@@ -56,7 +56,7 @@ A = P*[l_u zeros(N); zeros(N) r_l]*P;
 
 
 w0 = [u0 v0];
-w0_t = u0_t;
+w0_t = 0;
 
 [w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio);
 
