@@ -1,7 +1,7 @@
 
 %%%% BARA BC = 2 %%%%
 
-function [w,t,x,h,k] = SAT_projection(N, x0, xl, xN, T, a1, a2, order, BC, plotspeed, k_ratio, IC, plotornot)
+function [w,t,x,h,k] = SAT_projection(N, x0, xl, xN, T, a1, a2, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion)
 close all
 pause on
 %%%Domain%%%
