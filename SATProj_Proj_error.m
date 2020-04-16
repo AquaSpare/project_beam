@@ -3,7 +3,7 @@
 
 [u,v] = beam_ana();
 
-iter = 7;
+iter = 10;
 N = 30;
 errorProj = zeros(1,iter);
 errorSAT = zeros(1,iter);
