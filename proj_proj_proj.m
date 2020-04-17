@@ -1,23 +1,23 @@
-%%%% För exakt lösning krävs x0=0 xN=1, b1=b2=1 och bc=2 i.e
-%%%% beam_eq_projection(81,0,1/2,1,0.5,1,1,4,2,100,0.001);
+%%% Projection inre/yttre
 
-%%%% Några exempel:
+%%%% F�r exakt l�sning IC=1
+%%%% proj_proj_proj(41,-1,0,1,0.4,1,4,4,2,50,0.001, 1, 1, 1);
+
+%%%% N�gra exempel:
 
 %%%% Clamped:
-%%%% beam_eq_projection(81,-1,0,1,0.1,1,100,4,1,200, 0.00001);
+%%%% proj_proj_proj(81,-1,0,1,0.1,1,100,4,1,200, 0.00001, 0, 1, 1);
 
 %%%% Free:
-%%%% beam_eq_projection(81,-1,0,1,0.1,1,10,4,2,20, 0.0001);
+%%%% proj_proj_proj(81,-1,0,1,0.1,1,100,4,2,200, 0.00001, 0, 1, 1);
 
 %%%% Sliding
-%%%% beam_eq_projection(81,-1,0,1,1,1,10,4,3,20, 0.0001);
+%%%% proj_proj_proj(81,-1,0,1,0.1,1,100,4,3,200, 0.00001, 0, 1, 1);
 
 %%%% Hinged
-%%%% beam_eq_projection(81,-1,0,1,0.1,1,100,4,4,200, 0.00001);
+%%%% proj_proj_proj(81,-1,0,1,0.1,1,100,4,4,200, 0.00001, 0, 1, 1);
 
-%%%% Stor skillnad i b kräver mindre k. När t.ex. b1=1, b2=100 krävs minst k = 0.00001*h.
-
-function [w,t,x,h,k] = beam_eq_projection(N, x0, xl, xN, T, b1, b2, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion)
+function [w,t,x,h,k] = proj_proj_proj(N, x0, xl, xN, T, b1, b2, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion)
 close all
 pause on
 %%%Domain%%%
@@ -28,12 +28,17 @@ x = [x1 x2];
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 %%% Initial condition %%%
-if(b1 == b2 && BC == 2 && x0 == 0 && xN == 1) %%%%%%exact solution exists 
-    u0 = @(x) cosh(1.50562*pi.*x) + cos(1.50562*pi.*x) - ((cos(1.50562*pi) -cosh(1.50562*pi))/(sin(1.50562*pi) - sinh(1.50562*pi)))*(sin(1.50562*pi.*x) +sinh(1.50562*pi.*x));
-    u0_t = 0;
+if(IC == 0)
+    xr = -1/4;
+    r0 = 1/30;
+    u = @(x) exp(-(xr-x).^2/r0^2);
+    v = @(x) exp(-(xr-x).^2/r0^2);
+    u0 = u(x1);
+    v0 = v(x2);
 else 
-    u0 = IC{1}(x1,0);
-    v0 = IC{2}(x2,0);
+    [u,v] = beam_ana();
+    u0 = u(x1,0);
+    v0 = v(x2,0);
 end
 
 %%%SBP operators%%%
@@ -70,21 +75,22 @@ elseif timestepperversion == 2
     [w,k,t] = timestepperv2(T,h,A,w0,w0_t,k_ratio);
 end
 
-%%%Exact Solution%%%
+%%% Plot
 if plotornot == 1
-    u_exact = @(x,t) real(exp(-1i*(22.3733)*t)*u0(x));
     figure(1);
     for i = 1:plotspeed:length(t)
-        if(b1 == b2 && BC == 2 && x0 == 0 && xN == 1)
+        if(IC ~= 0)
             plot(x1, w(1:N,i), '*b', x2, w(N+1:end,i), '*r');
             hold on;
-            plot(x,u_exact(x,t(i)), 'g');
-            axis([0 1 -2 2]);
+            plot(x1,u(x1,t(i)), 'b', x2, v(x2,t(i)), 'r');
+            axis([x0 xN -2 1]);
             hold off;
-        else 
+        else
             plot(x1, w(1:N,i), 'b', x2, w(N+1:end,i), 'r');
             axis([x0 xN -1 1]);
         end
         pause(0.00000001);
     end
 end
+
+
