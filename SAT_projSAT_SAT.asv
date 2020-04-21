@@ -1,23 +1,14 @@
-%%% Projection yttre, proj/SAT mix inre
+%%%% SAT/proj mix i inre, SAT på yttre (Enbart Free)
 
 %%%% För exakt lösning IC=1
-%%%% proj_projSAT_proj(41,-1,0,1,0.4,1,4,4,2,50,0.001, 1, 1, 1);
+%%%% SAT_projSAT_SAT(41,-1,0,1,0.4,1,4,4,2,50,0.001, 1, 1, 1);
 
-%%%% Några exempel:
-
-%%%% Clamped:
-%%%% proj_projSAT_proj(81,-1,0,1,0.1,1,100,4,1,200, 0.00001, 0, 1, 1);
+%%%% Exempel:
 
 %%%% Free:
-%%%% proj_projSAT_proj(81,-1,0,1,0.1,1,100,4,2,200, 0.00001, 0, 1, 1);
+%%%% SAT_projSAT_SAT(81,-1,0,1,0.1,1,100,4,2,200, 0.00001, 0, 1, 1);
 
-%%%% Sliding
-%%%% proj_projSAT_proj(81,-1,0,1,0.1,1,100,4,3,200, 0.00001, 0, 1, 1);
-
-%%%% Hinged
-%%%% proj_projSAT_proj(81,-1,0,1,0.1,1,100,4,4,200, 0.00001, 0, 1, 1);
-
-function [w,t,x,h,k] = proj_projSAT_proj(N, x0, xl, xN, T, a1, a2, order, BC, plotspeed, k_ratio, IC, plotornot,timestepperversion)
+function [w,t,x,h,k] = SAT_projSAT_SAT(N, x0, xl, xN, T, a1, a2, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion)
 close all
 pause on
 %%%Domain%%%
@@ -30,7 +21,7 @@ x = [x1 x2];
 %%% Initial condition %%%
 if(IC == 0)
     xr = -1/4;
-    r0 = 1/30;  
+    r0 = 1/30;
     u = @(x) exp(-(xr-x).^2/r0^2);
     v = @(x) exp(-(xr-x).^2/r0^2);
     u0 = u(x1);
@@ -51,17 +42,13 @@ elseif(order == 6)
 end
 
 %%%Boundary Conditions%%%
-if(BC == 1)%clamped
-    L = [eN -e1; dN_1 -d1_1; e1 zeros(1,N); d1_1 zeros(1,N); zeros(1,N) eN; zeros(1,N) dN_1];
-elseif(BC == 2)%free
-    L = [eN -e1; dN_1 -d1_1; d1_2 zeros(1,N); d1_3 zeros(1,N); zeros(1,N) dN_2; zeros(1,N) dN_3];
-elseif(BC == 3)%sliding
-    L = [eN -e1; dN_1 -d1_1; d1_1 zeros(1,N); d1_3 zeros(1,N); zeros(1,N) dN_1; zeros(1,N) dN_3];
-elseif(BC == 4)%hinged
-    L = [eN -e1; dN_1 -d1_1; e1 zeros(1,N); d1_2 zeros(1,N); zeros(1,N) eN; zeros(1,N) dN_2];
+if(BC == 2)%free
+    L = [eN -e1; dN_1 -d1_1];
+    l_u = -a1*D4 + a1*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
+    r_l = -a2*D4 + a2*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
+else
+    return;
 end
-l_u = -a1*D4 + a1*HI*(eN'*dN_3 - dN_1'*dN_2);
-r_l = -a2*D4 + a2*HI*(d1_1'*d1_2 - e1'*d1_3);
 
 H = [H zeros(N); zeros(N) H];
 HI = inv(H);
@@ -71,6 +58,7 @@ A = P*[l_u zeros(N); zeros(N) r_l]*P;
 
 w0 = [u0 v0];
 w0_t = 0;
+
 
 if timestepperversion == 1
     [w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio);

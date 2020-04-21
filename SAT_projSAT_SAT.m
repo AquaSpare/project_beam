@@ -62,16 +62,15 @@ P = [eye(N) zeros(N); zeros(N) eye(N)] - HI*L'*inv(L*HI*L')*L;
 
 A = P*[l_u zeros(N); zeros(N) r_l]*P;
 
-
 w0 = [u0 v0];
 w0_t = 0;
+
 
 if timestepperversion == 1
     [w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio);
 elseif timestepperversion == 2
     [w,k,t] = timestepperv2(T,h,A,w0,w0_t,k_ratio);
 end
-
 
 %%% Plot
 if plotornot == 1
