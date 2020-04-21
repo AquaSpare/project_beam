@@ -76,7 +76,7 @@ if method == 3
     P = [eye(N) zeros(N); zeros(N) eye(N)] - HI*L'*inv(L*HI*L')*L;
 
     A = P*[l_u zeros(N); zeros(N) r_l]*P;
-    maxeig= max(abs(eig(k^2.*A+2*eye(size(A))));
+    maxeig= max(abs(eig(k^2.*A+2*eye(size(A)))));
 end
 
 
