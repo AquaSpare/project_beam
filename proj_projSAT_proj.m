@@ -30,7 +30,7 @@ x = [x1 x2];
 %%% Initial condition %%%
 if(IC == 0)
     xr = -1/4;
-    r0 = 1/30;
+    r0 = 1/30;  
     u = @(x) exp(-(xr-x).^2/r0^2);
     v = @(x) exp(-(xr-x).^2/r0^2);
     u0 = u(x1);

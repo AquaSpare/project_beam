@@ -69,6 +69,7 @@ A = (-P*[b1*D4 zeros(N); zeros(N) b2*D4]*P);
 
 w0 = [u0 v0];
 w0_t = 0;
+
 if timestepperversion == 1
     [w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio);
 elseif timestepperversion == 2
