@@ -1,4 +1,3 @@
-
 function maxeig = bigboy(method,N,ratio,BC,order,b1,b2)
 
 %METHOD == 1 for proj_proj_proj
