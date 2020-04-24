@@ -3,8 +3,8 @@ b1 = 1;
 b2 = 1;
 order = 4;
 BC = 2;
-N = 21;
-ratios = linspace(0.37,0.4,100);
+N = 61;
+ratios = linspace(0.3,0.45,1000);
 eigs = zeros(3,length(ratios));
 
 for i = 1:3
@@ -18,9 +18,9 @@ hold on
 plot(ratios,eigs(2,:))
 hold on
 plot(ratios,eigs(3,:))
-axis([0.37 0.4 1.80 2.3])
+axis([0.3 0.45 1.80 2.3])
 
-legend('Pure projectuin','proj\_projSAT\_proj','SAT\_projSAT\_SAT')
-xlabel('kratio')
+legend('Pure projection','proj\_projSAT\_proj','SAT\_projSAT\_SAT')
+xlabel('ratio')
 ylabel('spectral radius')
 title('Spectral radius or diefferent discretization ratios')
