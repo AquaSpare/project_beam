@@ -60,14 +60,23 @@ elseif(BC == 3)%sliding
 elseif(BC == 4)%hinged
     L = [eN -e1; dN_1 -d1_1; e1 zeros(1,N); d1_2 zeros(1,N); zeros(1,N) eN; zeros(1,N) dN_2];
 end
-l_u = -a1*D4 + a1*HI*(eN'*dN_3 - dN_1'*dN_2);
-r_l = -a2*D4 + a2*HI*(d1_1'*d1_2 - e1'*d1_3);
+
+tau3 = 1/2;
+tau4 = 1/2;
+tau5 = 1-tau3;
+tau6 = 1-tau4;
+
+l_u = a1*D4 + a1*HI*(-tau3*eN'*dN_3 + tau4*dN_1'*dN_2);
+r_u = a2*HI*(tau3*eN'*d1_3 - tau4*dN_1'*d1_2);
+
+l_l = a1*HI*(-tau5*e1'*dN_3 + tau6*d1_1'*dN_2);
+r_l = a2*D4 + a2*HI*(tau5*e1'*d1_3 - tau6*d1_1'*d1_2);
 
 H = [H zeros(N); zeros(N) H];
 HI = inv(H);
 P = [eye(N) zeros(N); zeros(N) eye(N)] - HI*L'*inv(L*HI*L')*L;
 
-A = P*[l_u zeros(N); zeros(N) r_l]*P;
+A = -P*[l_u r_u; l_l r_l]*P;
 
 w0 = [u0 v0];
 w0_t = 0;
