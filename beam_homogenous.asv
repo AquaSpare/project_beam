@@ -23,10 +23,9 @@ if b == 1 && x0 == 0 && xl == 1
         special_case = 1;
     elseif BC == 1
         Beta = 4.73004074486270402602404810;
-        u0 = @(x) cosh(Beta.*x) - cos(Beta.*x) - (sinh(Beta)+sin(Beta))/(cosh(Beta)-cos(Beta))*(sinh(Beta.*x)-sin(Beta*x));
+        u0 = @(x) cosh(Beta.*x) + cos(Beta.*x) - (sinh(Beta)+sin(Beta))/(cosh(Beta)-cos(Beta))*(sinh(Beta.*x)-sin(Beta*x));
         w0_t = 0;
         w0 = u0(x);
-        special_case = 1;
     else
     xp = 0.5;
     r0 = 0.05;
