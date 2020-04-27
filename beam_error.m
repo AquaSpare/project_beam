@@ -1,21 +1,28 @@
-%[w,t,x,h,k] = beam_eq_projection(N, x0, xl, xN, T, b1, b2, order, BC, plotspeed, k_ratio)
 
 close all
 
-%Exakt lösning (typ) för DBE med fria ränder och längd 1.
-u0 = @(x) cosh(1.50562*pi.*x) + cos(1.50562*pi.*x) - ((cos(1.50562*pi) -cosh(1.50562*pi))/(sin(1.50562*pi) - sinh(1.50562*pi)))*(sin(1.50562*pi.*x) +sinh(1.50562*pi.*x));
-u_exact = @(x,t) real(exp(-1i*(22.3733)*t)*u0(x));
 
-%Konvergensstudie för SBP-order 4
 iter = 8;
 N = 10;
 error = zeros(1,iter);
 steps = zeros(1,iter);
+BC = 2;
+a1 = 1;
+a2 = 4;
+T = 0.5;
+order = 4;
+
+x0 = -1;
+xl = 0;
+xN = 1;
+
+[u_exact_l, u_exact_r] = beam_ana(BC,1,4);
+
 for i = 1:iter
-    [solution,t,x,h,k] = beam_eq_projection((N*i)+1,0,0.5,1,0.18,1,1,4,2,2000,0.00001);
-    exact = u_exact(x,t(end))';
+    [solution,t,x,h,k] = proj_proj_proj((N*i)+1, x0, xl, xN, T, a1, a2, order, BC, 10, 0.0001, 1, 0, 2);
+    exact = [u_exact_l(x0:h:xl,t(end)) u_exact_r((xl:h:xN),t(end))];
     steps(i) = h;
-    error(i) = sqrt(1/(N*i))*norm(exact-solution(:,end),2);
+    error(i) = sqrt(h)*norm(exact'-solution(:,end),2);
 end
 figure(1)
 loglog(steps,error,'r*')
@@ -24,16 +31,17 @@ ylabel('L2 norm of error')
 
 
 
-% tar fram felet över tid, ser hur det växer.
-[solution,t,x,h,k] = beam_eq_projection_dav(41,0,0.5,1,0,20,1,1,4,2);
-exact = zeros(size(solution));
-errortime = zeros(1,length(t));
-for i =1:length(t)
-    exact(:,i) = u_exact(x,t(i));
-    errortime(i) = sqrt(1/40)*norm(exact(:,i) - solution(:,i),2);
-end
-figure(2)
-plot(t,errortime)
-xlabel('time')
-ylabel('L2 norm of error')
+%tar fram felet över tid, ser hur det växer.
+% T = 1;
+% [solution,t,x,h,k] = proj_proj_proj(41, x0, xl, xN, T, a1, a2, order, BC, 10, 0.0001, 1, 0, 1);
+% exact = zeros(size(solution));
+% errortime = zeros(1,length(t));
+% for i =1:length(t)
+%     exact = [u_exact_l(x0:h:xl,t(i)) u_exact_r(xl:h:xN,t(i))];
+%     errortime(i) = sqrt(h)*norm(exact' - solution(:,i),2);
+% end
+% figure(2)
+% plot(t,errortime)
+% xlabel('time')
+% ylabel('L2 norm of error')
 

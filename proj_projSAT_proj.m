@@ -36,7 +36,7 @@ if(IC == 0)
     u0 = u(x1);
     v0 = v(x2);
 else 
-    [u,v] = beam_ana_2(BC, a1, a2);
+    [u,v] = beam_ana(BC, a1, a2);
     u0 = u(x1,0);
     v0 = v(x2,0);
 end
