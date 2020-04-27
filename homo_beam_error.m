@@ -44,7 +44,7 @@ exact = homo_beam_ana_2(BC);
 errortime = zeros(1,length(t));
 
 for i = 1:length(t)
-    errortime(1,i) = sqrt(1/40)*norm(exact(x,t(i)) - sol(:,i),2);        
+    errortime(1,i) = sqrt(h)*norm(exact(x,t(i)) - sol(:,i),2);        
 end
 
 figure(2)
