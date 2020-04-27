@@ -19,7 +19,7 @@ elseif(order == 6)
     [D4, H, HI, M, e1, eN, d1_1, dN_1, d1_2, dN_2, d1_3, dN_3] = SBP6_D4(N, h);
 end
 
-if BC == 2 %free
+if BC ==  %free
     SAT = HI*d1_1'*d1_2 -HI*e1'*d1_3 -HI*dN_1'*dN_2 + HI*eN'*dN_3;
 end
 

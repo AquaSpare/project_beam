@@ -32,11 +32,11 @@ end
 HI = inv(H);
 
 if BC == 1 %clamped
-    tau0_1 = 4/(h^3*alfa_3);
+    tau0_1 = 2/(h^3*alfa_3);
     tauL_1 = tau0_1;
-    tau0_2 = 4/(h*alfa_2);
+    tau0_2 = 2/(h*alfa_2);
     tauL_2 = tau0_2;
-    SAT = HI*(d1_3-tau0_1*e1')'*e1' - HI*(d1_2+tau0_2*d1_1)'*d1_1 - HI*(dN_3+tauL_1*eN')'*eN' + HI*(dN_2-tauL_2*dN_1)'*dN_1;
+    SAT = HI*(dN_3-tauL_0*e1')'*e1' - HI*(d1_2+tau0_2*d1_1)'*d1_1 - HI*(dN_3+tauL_1*eN')'*eN' + HI*(dN_2-tauL_2*dN_1)'*dN_1;
 end
 
 if BC == 2 %free
@@ -56,7 +56,7 @@ end
 if plotornot == 1
     figure(1);
     for i = 1:plotspeed:length(t)
-        if(x0 == 0 && xN == 1)
+        if(BC == 2 && x0 == 0 && xN == 1)
           plot(x, u(1:N,i), '*b');
            hold on;
            plot(x,u_exact(x,t(i)), 'g');
