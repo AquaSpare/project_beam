@@ -27,7 +27,7 @@ if(IC == 0)
     u0 = u(x1);
     v0 = v(x2);
 else 
-    [u,v] = beam_ana();
+    [u,v] = beam_ana(BC, a1, a2);
     u0 = u(x1,0);
     v0 = v(x2,0);
 end
@@ -77,12 +77,15 @@ end
 %%% Plot
 if plotornot == 1
     figure(1);
+    if(IC ~= 0)
+        ymax = max(abs(u(x1,0)));
+    end
     for i = 1:plotspeed:length(t)
         if(IC ~= 0)
             plot(x1, w(1:N,i), '*b', x2, w(N+1:end,i), '*r');
             hold on;
             plot(x1,u(x1,t(i)), 'b', x2, v(x2,t(i)), 'r');
-            axis([x0 xN -2 1]);
+            axis([x0 xN -ymax ymax]);
             hold off;
         else
             plot(x1, w(1:N,i), 'b', x2, w(N+1:end,i), 'r');
