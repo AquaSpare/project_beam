@@ -1,4 +1,5 @@
 function [u,v] = beam_ana_2(BC, a1, a2)
+%ONLY CLAMPED, a1 = 1, a2 = 100
 params = cell(1,3);
 if(BC == 1)
     params{1,1} = [-5.794825217627827;
