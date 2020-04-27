@@ -36,7 +36,7 @@ if BC == 1 %clamped
     tauL_1 = tau0_1;
     tau0_2 = 4/(h*alfa_2);
     tauL_2 = tau0_2;
-    SAT = HI*(d1_3-tau0_1*e1')'*e1' - HI*(d1_2+tau0_2*d1_1)'*d1_1 - HI*(dN_3+tauL_1*eN')'*eN' + HI*(dN_2-tauL_2*dN_1)'*dN_1;
+    SAT = HI*(d1_3-tau0_1*e1)'*e1 - HI*(d1_2+tau0_2*d1_1)'*d1_1 - HI*(dN_3+tauL_1*eN)'*eN + HI*(dN_2-tauL_2*dN_1)'*dN_1;
 end
 
 if BC == 2 %free
