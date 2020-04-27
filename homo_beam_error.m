@@ -2,42 +2,59 @@
 close all
 
 %exakt lösning och begynnelsevärde för fria ränder
-u0 = @(x) cosh(1.50562*pi.*x) + cos(1.50562*pi.*x) - ((cos(1.50562*pi) -cosh(1.50562*pi))/(sin(1.50562*pi) - sinh(1.50562*pi)))*(sin(1.50562*pi.*x) +sinh(1.50562*pi.*x));
-u_exact = @(x,t) real(exp(-1i*(22.3733)*t)*u0(x));
 
 %konvergens för SBP4 
 
-iter = 1;
-N = 150;
-error = zeros(1,iter);
-steps = zeros(1,iter);
+iter = 6;
+N = 15;
+errorProj = zeros(1,iter);
+stepsProj = zeros(1,iter);
+errorSAT = zeros(1,iter);
+stepsSAT = zeros(1,iter);
 
+x0 = 0;
+xN = 1;
+b = 1;
+BC = 1;
+T = 0.14;
+order = 4;
 
+exact = homo_beam_ana_2(BC);
 for i = 1:iter
-    [sol,t,x,h,k] = beam_homogenous((N*i)+1,0,1,0.14,1,4,4,500,0.00001,0);
-    exact = u_exact(x,t(end));
-    steps(i) = h;
-    error(i) = sqrt(1/(N*i))*norm(exact'-sol(:,end),2);
+    [projSolution,tProj,xProj,hProj,kProj] = beam_homogenous((N*i)+1,x0,xN,T,b,order,BC,500,0.00001,0,2);
+    stepsProj(i) = hProj;
+    errorProj(i) = sqrt(hProj)*norm(exact(xProj,T)'-projSolution(:,end),2);
+    [SATsolution, tSAT, xSAT, hSAT, kSAT] = SAT_enBalk((N*i)+1,x0,xN,T, b, order, BC, 500, 0.00001, 0, 2);
+    stepsSAT(i) = hSAT;
+    errorSAT(i) = sqrt(hSAT)*norm(exact(xSAT,T)'-SATsolution(:,end),2);
 end
 
 figure(1)
-loglog(steps,error,'r*')
+if(BC == 1)
+    title('Convergence for clamped boundary');
+elseif(BC == 2)
+    title('Convergence for free boundary');
+end
+loglog(stepsProj,errorProj,'r*')
+hold on
+loglog(stepsSAT,errorSAT,'g*')
+legend('Projection', 'SAT')
 xlabel('log(h)')
 ylabel('L2 norm of error')
 
 %undersöka felet över tid
-
-[sol,t,x,h,k] = beam_homogenous(41,0,1,10,1,6,4,500,0.0001,0);
-exact = zeros(size(sol));
-errortime = zeros(1,length(t));
-
-for i = 1:length(t)
-    exact(:,i) = u_exact(x,t(i));
-    errortime(1,i) = sqrt(1/40)*norm(exact(:,i) - sol(:,i),2);        
-end
-
-figure(2)
-
-plot(t,errortime)
-xlabel('time')
-ylabel('L2 norm of error')
+% 
+% [sol,t,x,h,k] = beam_homogenous(41,0,1,10,1,6,4,500,0.0001,0);
+% exact = zeros(size(sol));
+% errortime = zeros(1,length(t));
+% 
+% for i = 1:length(t)
+%     exact(:,i) = u_exact(x,t(i));
+%     errortime(1,i) = sqrt(1/40)*norm(exact(:,i) - sol(:,i),2);        
+% end
+% 
+% figure(2)
+% 
+% plot(t,errortime)
+% xlabel('time')
+% ylabel('L2 norm of error')
