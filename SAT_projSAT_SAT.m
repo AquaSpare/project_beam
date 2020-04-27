@@ -46,16 +46,27 @@ tau3 = 1/2;
 tau4 = 1/2;
 tau5 = 1-tau3;
 tau6 = 1-tau4;
+L = [eN -e1; dN_1 -d1_1];
 
 %%%Boundary Conditions%%%
 if(BC == 2)%free
-    L = [eN -e1; dN_1 -d1_1];
     l_u = a1*D4 + a1*HI*(e1'*d1_3 - d1_1'*d1_2 +  - tau3*eN'*dN_3 + tau4*dN_1'*dN_2);
     r_u = a2*HI*(tau3*eN'*d1_3 - tau4*dN_1'*d1_2);
     l_l = a1*HI*(-tau5*e1'*dN_3 + tau6*d1_1'*dN_2);
     r_l = a2*D4 + a2*HI*(tau5*e1'*d1_3 - tau6*d1_1'*d1_2 - eN'*dN_3 + dN_1'*dN_2);
-else
-    return;
+elseif(BC == 1) %clamped
+    if(order == 4)
+        alfa_2 = 0.548;
+        alfa_3 = 1.088;
+    end
+    tau0_1 = 4/(h^3*alfa_3);
+    tauL_1 = tau0_1;
+    tau0_2 = 4/(h*alfa_2);
+    tauL_2 = tau0_2;
+    l_u = a1*D4 +a1*HI*((-tau0_1*e1)'*e1 +(tau0_2*d1_1)'*d1_1 - (tau3*dN_3)'*eN + (tau4*dN_2)'*dN_1);
+    r_u = a2*HI*(tau3*dN_3'*e1 - tau4*dN_2'*d1_1);
+    l_l = a1*HI*(-tau5*d1_3'*eN + tau6*d1_2'*dN_1);
+    r_l = a2*D4 + a2*HI*((tau5*d1_3)'*e1 - (tau6*d1_2)'*d1_1 - (tauL_1*eN)'*eN + (-tauL_2*dN_1)'*dN_1);
 end
 
 H = [H zeros(N); zeros(N) H];

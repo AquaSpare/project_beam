@@ -39,7 +39,7 @@ for i = 1:iter
     errorProjSAT(i) = sqrt(hProjSAT)*norm(exact'-solProjSAT(:,end),2);
 end
 figure(1)
-title('Inner boundary, clamped ends')
+title('Inner boundary, clampe ends')
 loglog(stepsProj,errorProj,'r*')
 hold on
 % loglog(stepsSAT,errorSAT,'b*')
