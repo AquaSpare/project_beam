@@ -20,7 +20,7 @@ elseif(order == 6)
 end
 
 if BC ==  %free
-    SAT = HI*d1_1'*d1_2 -HI*e1'*d1_3 -HI*dN_1'*dN_2 + HI*eN'*dN_3;
+    SAT = HI*(d1_1'*d1_2 -e1'*d1_3 -dN_1'*dN_2 + eN'*dN_3);
 end
 
 A = -D4 + SAT;
