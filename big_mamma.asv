@@ -1,5 +1,5 @@
 
-homoornot = 1;
+homoornot = 0;
 
 b1 = 1;
 b2 = 1;
@@ -24,21 +24,26 @@ if homoornot == 0
     legend('Pure projection','proj\_projSAT\_proj','SAT\_projSAT\_SAT')
     xlabel('ratio')
     ylabel('spectral radius')
-    title('Spectral radius of diefferent discretization ratios')
+    title('Spectral radius or diefferent discretization ratios')
 elseif homoornot == 1
     for i = 4:5
         for j = 1:length(ratios)  
             eigs(i,j) = eigmax(i,N,ratios(j),BC,order,b1,b2); 
         end
     end
-    plot(ratios,eigs(4,:))
-    hold on
-    plot(ratios,eigs(5,:))
-    xlabel('ratio')
-    ylabel('spectral radius')
-    title('Spectral radius for different discretization ratios')
-    legend('SAT','projection')
+    plot(ratios,e
+    
 end
 
 
+plot(ratios,eigs(1,:))
+hold on
+plot(ratios,eigs(2,:))
+hold on
+plot(ratios,eigs(3,:))
+axis([0.3 0.45 1.80 2.3])
 
+legend('Pure projection','proj\_projSAT\_proj','SAT\_projSAT\_SAT')
+xlabel('ratio')
+ylabel('spectral radius')
+title('Spectral radius or diefferent discretization ratios')
