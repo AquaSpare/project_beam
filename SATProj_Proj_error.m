@@ -1,7 +1,7 @@
 %%% Jämför de 3 olika metoderna. Ändra N för antal punkter och iter för
 %%% sista antalet punkter ( iter*N ) 
 
-iter = 7;
+iter = 5;
 N = 40;
 errorProj = zeros(1,iter);
 errorSAT = zeros(1,iter);

@@ -59,8 +59,8 @@ elseif(BC == 1) %clamped
         alfa_2 = 0.548;
         alfa_3 = 1.088;
     end
-    tau1 = 2/(h^3*alfa_3);
-    tau2 = 2/(h*alfa_2);
+    tau1 = 4/(h^3*alfa_3);
+    tau2 = 4/(h*alfa_2);
     tau7 = tau1;
     tau8 = tau2;
     
