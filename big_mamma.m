@@ -4,12 +4,13 @@ homoornot = 0;
 b1 = 1;
 b2 = 4;
 order = 4;
-BC = 2;
+BC = 1;
 N = 41;
-eigs = zeros(5,length(ratios));
+resolution = 1000;
+eigs = zeros(5,resolution);
 
 if homoornot == 0
-    ratios = linspace(0.194,0.19415,1000);
+    ratios = linspace(0.194,0.195,resolution);
     for i = 1:3
         for j = 1:length(ratios)  
             eigs(i,j) = eigmax(i,N,ratios(j),BC,order,b1,b2); 
@@ -20,7 +21,7 @@ if homoornot == 0
     plot(ratios,eigs(2,:))
     hold on
     plot(ratios,eigs(3,:))
-    axis([0.194 0.19415 1.99 2.01])
+    axis([0.1 0.2 1.8 2.2])
     legend('Pure projection','proj\_projSAT\_proj','SAT\_projSAT\_SAT')
     xlabel('ratio')
     ylabel('spectral radius')

@@ -13,7 +13,7 @@ else
     h = 1/(N-1);
 end
 
-k = ratio*h^2;
+k = ratio*h;
 
 if (order == 2)
         [D4, H, HI, M, e1, eN, d1_1, dN_1, d1_2, dN_2, d1_3, dN_3] = SBP2_D4(N, h);
@@ -39,7 +39,7 @@ if method == 1
     P = [eye(N) zeros(N); zeros(N) eye(N)] - HI*L'*inv(L*HI*L')*L;
     A = (-P*[b1*D4 zeros(N); zeros(N) b2*D4]*P);
     
-    maxeig = max(abs(eig(k^2.*A+2*eye(size(A)))));
+    maxeig = max(abs(eig(k^2*h^2.*A+2*eye(size(A)))));
 end
 
 
@@ -63,7 +63,7 @@ if method == 2
 
     A = P*[l_u zeros(N); zeros(N) r_l]*P;
     
-    maxeig = max(abs(eig(k^2.*A+2*eye(size(A)))));
+    maxeig = max(abs(eig(k^2*h^2.*A+2*eye(size(A)))));
 end
 
 if method == 3
@@ -73,8 +73,27 @@ if method == 3
     L = [eN -e1; dN_1 -d1_1];
     l_u = -b1*D4 + b1*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
     r_l = -b2*D4 + b2*HI*(d1_1'*d1_2 - e1'*d1_3 + eN'*dN_3 - dN_1'*dN_2);
-    else
-        return;
+   elseif(BC == 1) %clamped
+    tau3 = 1/2;
+    tau4 = 1/2;
+    tau5 = 1-tau3;
+    tau6 = 1-tau4;
+    L = [eN -e1; dN_1 -d1_1];
+    if(order == 4)
+        alfa_2 = 0.548;
+        alfa_3 = 1.088;
+    end
+    tau1 = 4/(h^3*alfa_3);
+    tau2 = 4/(h*alfa_2);
+    tau7 = tau1;
+    tau8 = tau2;
+    
+    l_u = b1*D4 +b1*HI*(-d1_3'*e1 + d1_2'*d1_1 + (tau1*e1)'*e1 +(tau2*d1_1)'*d1_1 -tau3*eN'*dN_3 + tau4*dN_1'*dN_2);
+    r_u = b2*HI*(tau3*eN'*d1_3 - tau4*dN_1'*d1_2);
+
+    l_l = b1*HI*(-tau5*e1'*dN_3 + tau6*d1_1'*dN_2);
+    r_l = b2*D4 + b2*HI*(tau5*e1'*d1_3 - tau6*d1_1'*d1_2 +dN_3'*eN + (tau7*eN')*eN - dN_2'*dN_1 + (tau8*dN_1')*dN_1);
+
     end
     
     H = [H zeros(N); zeros(N) H];
@@ -82,7 +101,7 @@ if method == 3
     P = [eye(N) zeros(N); zeros(N) eye(N)] - HI*L'*inv(L*HI*L')*L;
 
     A = P*[l_u zeros(N); zeros(N) r_l]*P;
-    maxeig= max(abs(eig(k^2.*A+2*eye(size(A)))));
+    maxeig= max(abs(eig(k^2*h^2.*A+2*eye(size(A)))));
 end
 
 if method == 4
