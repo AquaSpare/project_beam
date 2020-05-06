@@ -15,7 +15,7 @@ stepsSAT = zeros(1,iter);
 x0 = 0;
 xN = 1;
 b = 1;
-BC = 1;
+BC = 2;
 T = 0.14;
 order = 4;
 
@@ -30,17 +30,12 @@ for i = 1:iter
 end
 
 figure(1)
-
-loglog(stepsProj,errorProj,'*')
+title('Homogenous beam, free boundary','FontSize',18)
+loglog(stepsProj,errorProj,'r*')
 hold on
-loglog(stepsSAT,errorSAT,'x')
+loglog(stepsSAT,errorSAT,'g*')
 hold off
-if BC == 1 
-    title('Homogenous beam, clamped boundary','FontSize',18)
-elseif BC == 2
-    title('Homogenous beam, free boundary','FontSize',18)
-end
-legend('Projection', 'SAT','Location','northwest')
+legend('Projection', 'SAT')
 xlabel('h','FontSize',16)
 ylabel('L2 norm of error','FontSize',16)
 
