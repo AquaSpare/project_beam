@@ -12,7 +12,7 @@ errorProjSAT = zeros(1,iter);
 stepsSAT_proj_SAT = zeros(1,iter);
 errorSAT_proj_SAT = zeros(1,iter);
 
-BC = 1;
+BC = 2;
 a1 = 1;
 a2 = 4;
 T = 0.14;
@@ -49,14 +49,10 @@ figure(1)
 loglog(stepsProj,errorProj,'r*')
 hold on
 loglog(stepsSAT,errorSAT,'bx')
-loglog(stepsProjSAT,errorProjSAT, 'gx')
+loglog(stepsProjSAT,errorProjSAT, 'g*')
 loglog(stepsSAT_proj_SAT, errorSAT_proj_SAT,'*');
 hold off
-if BC == 1
- title('Inner boundary, clamped ends')
-elseif BC == 2
-    title('Inner boundary, free ends')
-end
+title('Inner boundary, clamped ends')
 xlabel('h')
 ylabel('L2 norm of error')
 legend('Pure Projection', 'Outer SAT, inner Mix', 'Outer Projection, inner Mix', 'Outer SAT, inner Proj');
