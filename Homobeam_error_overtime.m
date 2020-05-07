@@ -4,8 +4,8 @@ pause on
 
 T = 10;
 b = 1;
-N = 21;
-order = 6;
+N = 41;
+order = 2;
 BC = 1;
 kratio = 0.0001;
 x0 = 0;
@@ -25,10 +25,10 @@ for i = 1:length(t)
     i;
 end
 
-% plot(t,errortime(1,:),'b')
-% hold on
-% plot(t,errortime(2,:),'r')
-% 
-% legend('SAT','projection')
-% xlabel('Time (s)')
-% ylabel('L2 norm of error')
+plot(t,errortime(1,:),'b')
+hold on
+plot(t,errortime(2,:),'r')
+
+legend('SAT','projection')
+xlabel('Time (s)')
+ylabel('L2 norm of error')
