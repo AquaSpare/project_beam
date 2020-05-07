@@ -2,7 +2,7 @@ clear all
 close all
 pause on
 
-T = 5;
+T = 10;
 b = 1;
 N = 21;
 order = 6;
