@@ -1,7 +1,7 @@
 function [solution, k, t] = timestepper(T, h, A, u0, u0_t, k_ratio)
 
-k =h^2* 2/sqrt(max(abs(eig(h^4.*A))));
-%k = k_ratio*h;
+%k =h^2* 2/sqrt(max(abs(eig(h^4.*A))));
+k = k_ratio*h^2;
 
 t = 0:k:T;
 solution = zeros(length(u0),length(t));
