@@ -1,14 +1,4 @@
-%%%% SAT/proj mix i inre, SAT på yttre (Enbart Free)
-
-%%%% För exakt lösning IC=1
-%%%% SAT_projSAT_SAT(41,-1,0,1,0.4,1,4,4,2,50,0.001, 1, 1, 1);
-
-%%%% Exempel:
-
-%%%% Free:
-%%%% SAT_projSAT_SAT(81,-1,0,1,0.1,1,100,4,2,200, 0.00001, 0, 1, 1);
-
-function [w,t,x,h,k] = SAT_projSAT_SAT(N, x0, xl, xN, T, a1, a2, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion)
+function [w,t,x,h,k] = SAT_proj_SAT(N, x0, xl, xN, T, a1, a2, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion)
 close all
 pause on
 %%%Domain%%%
@@ -46,14 +36,14 @@ tau3 = 1/2;
 tau4 = 1/2;
 tau5 = 1-tau3;
 tau6 = 1-tau4;
-L = [eN -e1; dN_1 -d1_1];
+L = [eN -e1; dN_1 -d1_1; a1*dN_2 -a2*d1_2; a1*dN_3 -a2*d1_3];
 
 %%%Boundary Conditions%%%
 if(BC == 2)%free
-    l_u = a1*D4 + a1*HI*(e1'*d1_3 - d1_1'*d1_2 +  - tau3*eN'*dN_3 + tau4*dN_1'*dN_2);
-    r_u = a2*HI*(tau3*eN'*d1_3 - tau4*dN_1'*d1_2);
-    l_l = a1*HI*(-tau5*e1'*dN_3 + tau6*d1_1'*dN_2);
-    r_l = a2*D4 + a2*HI*(tau5*e1'*d1_3 - tau6*d1_1'*d1_2 - eN'*dN_3 + dN_1'*dN_2);
+    l_u = a1*D4 + a1*HI*(e1'*d1_3 - d1_1'*d1_2);
+   % r_u = a2*HI*(tau3*eN'*d1_3 - tau4*dN_1'*d1_2);
+    %l_l = a1*HI*(-tau5*e1'*dN_3 + tau6*d1_1'*dN_2);
+    r_l = a2*D4 + a2*HI*(-eN'*dN_3 + dN_1'*dN_2);
 elseif(BC == 1) %clamped
     if(order == 4)
         alfa_2 = 0.548;
@@ -64,18 +54,18 @@ elseif(BC == 1) %clamped
     tau7 = tau1;
     tau8 = tau2;
     
-    l_u = a1*D4 +a1*HI*(-d1_3'*e1 + d1_2'*d1_1 + (tau1*e1)'*e1 +(tau2*d1_1)'*d1_1 -tau3*eN'*dN_3 + tau4*dN_1'*dN_2);
-    r_u = a2*HI*(tau3*eN'*d1_3 - tau4*dN_1'*d1_2);
+    l_u = a1*D4 +a1*HI*(-d1_3'*e1 + d1_2'*d1_1 + (tau1*e1)'*e1 +(tau2*d1_1)'*d1_1);% -tau3*eN'*dN_3 + tau4*dN_1'*dN_2);
+    %r_u = a2*HI*(tau3*eN'*d1_3 - tau4*dN_1'*d1_2);
 
-    l_l = a1*HI*(-tau5*e1'*dN_3 + tau6*d1_1'*dN_2);
-    r_l = a2*D4 + a2*HI*(tau5*e1'*d1_3 - tau6*d1_1'*d1_2 +dN_3'*eN + (tau7*eN')*eN - dN_2'*dN_1 + (tau8*dN_1')*dN_1);
+    %l_l = a1*HI*(-tau5*e1'*dN_3 + tau6*d1_1'*dN_2);
+    r_l = a2*D4 + a2*HI*((tau7*eN')*eN - dN_2'*dN_1 + (tau8*dN_1')*dN_1);
 end
 
 H = [H zeros(N); zeros(N) H];
 HI = inv(H);
 P = [eye(N) zeros(N); zeros(N) eye(N)] - HI*L'*inv(L*HI*L')*L;
 
-A = -P*[l_u r_u; l_l r_l]*P;
+A = -P*[l_u zeros(N); zeros(N) r_l]*P;
 
 w0 = [u0 v0];
 w0_t = 0;

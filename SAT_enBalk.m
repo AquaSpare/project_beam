@@ -2,12 +2,6 @@ function [u, t, x, h, k] = SAT_enBalk(N,x0,xN,T, b, order, BC, plotspeed, k_rati
 
 h = (xN-x0)/(N-1);
 x = x0:h:xN;
-%%%initial conditions%%%
-%Fria ränder
-% Beta = 4.73004074486270402602404810;
-% u0 = @(x) cosh(Beta.*x) + cos(Beta.*x) - ((cos(Beta) -cosh(Beta))/(sin(Beta) - sinh(Beta)))*(sin(Beta.*x) +sinh(Beta.*x));
-% u_exact = @(x,t) real(exp(-1i*(Beta^2)*t)*u0(x));
-% u0_t = 0;
 
 %%%Exact Solution and initial conditions
 [u_exact,u0,u0_t] = homo_beam_ana(x,BC);
@@ -37,13 +31,11 @@ if BC == 1 %clamped
     tau0_2 = 4/(h*alfa_2);
     tauL_2 = tau0_2;
     SAT = HI*(d1_3-tau0_1*e1)'*e1 - HI*(d1_2+tau0_2*d1_1)'*d1_1 - HI*(dN_3+tauL_1*eN)'*eN + HI*(dN_2-tauL_2*dN_1)'*dN_1;
-end
-
-if BC == 2 %free
+elseif BC == 2 %free
     SAT = HI*d1_1'*d1_2 -HI*e1'*d1_3 -HI*dN_1'*dN_2 + HI*eN'*dN_3;
 end
 
-A = -D4 + SAT;
+A = b.*(-D4 + SAT);
 if timestepperversion == 1
     [u,k,t] = timestepper(T,h,A,u0,u0_t,k_ratio);
 elseif timestepperversion == 2
