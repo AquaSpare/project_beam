@@ -45,7 +45,7 @@ plot(t,error(2,:));
 if BC == 1
     legend('Pure Projection', 'Projection mix');
 elseif BC == 2
-        legend('SAT-proj','SAT inner mix');
+    legend('SAT-proj','SAT inner mix');
 end
 
 
