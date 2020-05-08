@@ -18,7 +18,7 @@ if(IC == 0)
     xr = -1/4;
     r0 = 1/30;
     u = @(x) exp(-(xr-x).^2/r0^2);
-    u0 = u(x);
+    u0 = u(x1);
 else 
     u = homo_beam_ana_2(a, BC);
     u0 = u(x,0);
@@ -55,7 +55,7 @@ P = eye(N)-HI*L'*inv(L*HI*L')*L;
 A = -a.*P*D4*P;
 
 if timestepperversion == 1
-    [w,k,t] = timestepper(T,h,A,u0,0,k_ratio);
+    [w,k,t] = timestepper(T,h,A,u0,w0_t,k_ratio);
 elseif timestepperversion == 2
     [w,k,t] = timestepperv2(T,h,A,u0,0,k_ratio);
 end
@@ -64,14 +64,14 @@ end
 if plotornot == 1
     figure(1);
     if(IC ~= 0)
-        ymax = max(abs(u(x,0)));
+        ymax = max(abs(u(x1,0)));
     end
     for i = 1:plotspeed:length(t)
         if(IC ~= 0)
             plot(x, w(1:N,i), '*b');
             hold on;
             plot(x,u(x,t(i)), 'r');
-            axis([x0 xl -ymax ymax]);
+            axis([x0 x1 -ymax ymax]);
             hold off;
         else
             plot(x1, w(1:N,i), 'b');
