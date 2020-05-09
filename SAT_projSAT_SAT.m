@@ -8,7 +8,7 @@
 %%%% Free:
 %%%% SAT_projSAT_SAT(81,-1,0,1,0.1,1,100,4,2,200, 0.00001, 0, 1, 1);
 
-function [w,t,x,h,k] = SAT_projSAT_SAT(N, x0, xl, xN, T, a1, a2, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion)
+function [w,t,x,h,k,error] = SAT_projSAT_SAT(N, x0, xl, xN, T, a1, a2, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion)
 close all
 pause on
 %%%Domain%%%
@@ -85,6 +85,8 @@ if timestepperversion == 1
     [w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio);
 elseif timestepperversion == 2
     [w,k,t] = timestepperv2(T,h,A,w0,w0_t,k_ratio);
+elseif timestepperversion == 3
+    [w,k,t,error] = timestepperv3(T,h,A,w0,w0_t,k_ratio,BC,a1,a2,x0,xl,xN);
 end
 
 %%% Plot

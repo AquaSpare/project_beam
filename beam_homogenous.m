@@ -1,16 +1,13 @@
 %exempel
 %beam_homogenous(81,0,1,0.18,1,4,4,500,0.0001,1,1,1);
 
-function [w,t,x,h,k] = beam_homogenous(N,x0,xl,T,a,order,BC,plotspeed,k_ratio,IC,plotornot, timestepperversion)
+function [w,t,x,h,k,error] = beam_homogenous(N,x0,xl,T,a,order,BC,plotspeed,k_ratio,IC,plotornot, timestepperversion)
 close all
 pause on
 
 %mesh and domain
 h = (xl-x0)/(N-1);
 x = x0:h:xl;
-
-%xp = 0.5;
-%r0 = 0.05;
 
 
 %%% Initial condition %%%
@@ -22,6 +19,7 @@ if(IC == 0)
 else 
     u = homo_beam_ana_2(a, BC);
     u0 = u(x,0);
+    u0_t = 0;
 end
 
 
@@ -58,6 +56,8 @@ if timestepperversion == 1
     [w,k,t] = timestepper(T,h,A,u0,0,k_ratio);
 elseif timestepperversion == 2
     [w,k,t] = timestepperv2(T,h,A,u0,0,k_ratio);
+elseif timestepperversion == 3
+    [w,k,t,error] = timestepperv3_enBalk(T,h,A,u0,u0_t,k_ratio,BC,a,x0,xN);
 end
 
 %%% Plot

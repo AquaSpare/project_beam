@@ -2,33 +2,32 @@ clear all
 close all
 pause on
 
-T = 10;
-b = 1;
+T = 100;
+a = 1;
+
 N = 41;
-order = 2;
+order = 4;
+kratio = 0.001;
+
 BC = 1;
-kratio = 0.0001;
 x0 = 0;
 xN = 1;
 
-[u{1,1}, t, x, h, k] = SAT_enBalk(N,x0,xN,T,b,order, BC, 500, kratio,0, 1);
-[u{1,2},t,x,h,k] = beam_homogenous(N,x0,xN,T,b,order,BC,500,kratio,0, 1);
-[u_exact,u0,u0_t] = homo_beam_ana(x,BC);
-u_exact_sol = zeros(size(t));
+u_exact = homo_beam_ana_2(a, BC);
+error = cell(2,1);
+u = cell(1,2);
 
-errortime = zeros(2,length(t));
+[u{1,1}, t, x, h, k, error{1,1}] = SAT_enBalk(N,x0,xN,T,a,order, BC, 500, kratio, 1, 0, 3);
+[u{1,2},t,x,h,k, error{2,1}] = beam_homogenous(N,x0,xN,T,a,order,BC,500,kratio,1, 0, 3);
 
-for i = 1:length(t)
-    u_exact_sol = u_exact(x,t(i));
-    errortime(1,i) = sqrt(1/N)*norm(u_exact_sol' - u{1,1}(:,i),2);
-    errortime(2,i) = sqrt(1/N)*norm(u_exact_sol' - u{1,2}(:,i),2);
-    i;
-end
-
-plot(t,errortime(1,:),'b')
+figure(1);
+plot(error{1,1});
 hold on
-plot(t,errortime(2,:),'r')
+plot(error{2,1});
+legend('SAT', 'Proj');
+hold off
 
-legend('SAT','projection')
-xlabel('Time (s)')
-ylabel('L2 norm of error')
+figure(2);
+plot(x, u{1,1}, 'b*');
+hold on;
+plot(x0:h:xN, u_exact(x0:h:xN, T), 'r');
