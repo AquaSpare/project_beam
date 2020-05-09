@@ -2,10 +2,10 @@ clear all
 close all
 pause on
 
-T = 100;
+T = 50;
 a = 1;
 
-N = 41;
+N = 81;
 order = 4;
 kratio = 0.001;
 
@@ -28,6 +28,6 @@ legend('SAT', 'Proj');
 hold off
 
 figure(2);
-plot(x, u{1,1}, 'b*');
+plot(x, u{1,1}(:,3), 'b*');
 hold on;
 plot(x0:h:xN, u_exact(x0:h:xN, T), 'r');

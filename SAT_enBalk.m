@@ -1,4 +1,4 @@
-function [u, t, x, h, k, error] = SAT_enBalk(N,x0,xN,T, a, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion)
+function [w, t, x, h, k, error] = SAT_enBalk(N,x0,xN,T, a, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion)
 
 h = (xN-x0)/(N-1);
 x = x0:h:xN;
@@ -46,9 +46,9 @@ end
 
 A = a.*(-D4 + SAT);
 if timestepperversion == 1
-    [u,k,t] = timestepper(T,h,A,u0,u0_t,k_ratio);
+    [w,k,t] = timestepper(T,h,A,u0,u0_t,k_ratio);
 elseif timestepperversion == 2
-    [u,k,t] = timestepperv2(T,h,A,u0,u0_t,k_ratio);
+    [w,k,t] = timestepperv2(T,h,A,u0,u0_t,k_ratio);
 elseif timestepperversion == 3
     [w,k,t,error] = timestepperv3_enBalk(T,h,A,u0,u0_t,k_ratio,BC,a,x0,xN);
 end
@@ -58,7 +58,7 @@ if plotornot == 1
     figure(1);
     for i = 1:plotspeed:length(t)
         if(x0 == 0 && xN == 1)
-          plot(x, u(1:N,i), '*b');
+          plot(x, w(1:N,i), '*b');
            hold on;
            plot(x,u_exact(x,t(i)), 'g');
            axis([0 1 -2 2]);

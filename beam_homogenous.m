@@ -1,13 +1,13 @@
 %exempel
 %beam_homogenous(81,0,1,0.18,1,4,4,500,0.0001,1,1,1);
 
-function [w,t,x,h,k,error] = beam_homogenous(N,x0,xl,T,a,order,BC,plotspeed,k_ratio,IC,plotornot, timestepperversion)
+function [w,t,x,h,k,error] = beam_homogenous(N,x0,xN,T,a,order,BC,plotspeed,k_ratio,IC,plotornot, timestepperversion)
 close all
 pause on
 
 %mesh and domain
-h = (xl-x0)/(N-1);
-x = x0:h:xl;
+h = (xN-x0)/(N-1);
+x = x0:h:xN;
 
 
 %%% Initial condition %%%
@@ -71,7 +71,7 @@ if plotornot == 1
             plot(x, w(1:N,i), '*b');
             hold on;
             plot(x,u(x,t(i)), 'r');
-            axis([x0 xl -ymax ymax]);
+            axis([x0 xN -ymax ymax]);
             hold off;
         else
             plot(x1, w(1:N,i), 'b');
