@@ -46,21 +46,18 @@ elseif BC == 3 %sliding
     tau = 2/(h*alfa_2);
     SAT = -HI*(d1_2+ tau*d1_1)'*d1_1 - HI*e1'*d1_3 + HI*(dN_2-tau*dN_1)'*dN_1 + HI*eN'*dN_3;
 else %hinged
-    tau = 4/(h^3 * alfa_3);
+    tau = 2/(h^3 * alfa_3);
     SAT = HI*(d1_3-tau*e1)'*e1+HI*d1_1'*d1_2-HI*(dN_3+tau*eN)'*eN-HI*dN_1'*dN_2;
 end
 
 A = a.*(-D4 + SAT);
 if timestepperversion == 1
     [w,k,t] = timestepper(T,h,A,u0,u0_t,k_ratio);
-    error = 0;
 elseif timestepperversion == 2
     [w,k,t] = timestepperv2(T,h,A,u0,u0_t,k_ratio);
-    error = 0;
 elseif timestepperversion == 3
     [w,k,t,error] = timestepperv3_enBalk(T,h,A,u0,u0_t,k_ratio,BC,a,x0,xN);
 end
-
 
 
 if plotornot == 1
@@ -69,7 +66,7 @@ if plotornot == 1
         if(x0 == 0 && xN == 1)
           plot(x, w(1:N,i), '*b');
            hold on;
-           plot(x,u(x,t(i)), 'g');
+           plot(x,u_exact(x,t(i)), 'g');
            axis([0 1 -2 2]);
            hold off;
         else 
@@ -78,7 +75,6 @@ if plotornot == 1
         end
      pause(0.00000001);
     end
-    
 end
 
 
