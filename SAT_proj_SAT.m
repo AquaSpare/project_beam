@@ -1,4 +1,4 @@
-function [w,t,x,h,k] = SAT_proj_SAT(N, x0, xl, xN, T, a1, a2, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion)
+function [w,t,x,h,k,error] = SAT_proj_SAT(N, x0, xl, xN, T, a1, a2, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion)
 close all
 pause on
 %%%Domain%%%
@@ -41,8 +41,6 @@ L = [eN -e1; dN_1 -d1_1; a1*dN_2 -a2*d1_2; a1*dN_3 -a2*d1_3];
 %%%Boundary Conditions%%%
 if(BC == 2)%free
     l_u = a1*D4 + a1*HI*(e1'*d1_3 - d1_1'*d1_2);
-   % r_u = a2*HI*(tau3*eN'*d1_3 - tau4*dN_1'*d1_2);
-    %l_l = a1*HI*(-tau5*e1'*dN_3 + tau6*d1_1'*dN_2);
     r_l = a2*D4 + a2*HI*(-eN'*dN_3 + dN_1'*dN_2);
 elseif(BC == 1) %clamped
     if(order == 4)
@@ -54,10 +52,7 @@ elseif(BC == 1) %clamped
     tau7 = tau1;
     tau8 = tau2;
     
-    l_u = a1*D4 +a1*HI*(-d1_3'*e1 + d1_2'*d1_1 + (tau1*e1)'*e1 +(tau2*d1_1)'*d1_1);% -tau3*eN'*dN_3 + tau4*dN_1'*dN_2);
-    %r_u = a2*HI*(tau3*eN'*d1_3 - tau4*dN_1'*d1_2);
-
-    %l_l = a1*HI*(-tau5*e1'*dN_3 + tau6*d1_1'*dN_2);
+    l_u = a1*D4 +a1*HI*(-d1_3'*e1 + d1_2'*d1_1 + (tau1*e1)'*e1 +(tau2*d1_1)'*d1_1);
     r_l = a2*D4 + a2*HI*((tau7*eN')*eN - dN_2'*dN_1 + (tau8*dN_1')*dN_1);
 end
 
@@ -75,6 +70,8 @@ if timestepperversion == 1
     [w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio);
 elseif timestepperversion == 2
     [w,k,t] = timestepperv2(T,h,A,w0,w0_t,k_ratio);
+elseif timestepperversion == 3
+    [w,k,t,error] = timestepperv3(T,h,A,w0,w0_t,k_ratio,BC,a1,a2,x0,xl,xN);
 end
 
 %%% Plot
