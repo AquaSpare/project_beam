@@ -6,7 +6,8 @@ a2 = 4;
 
 N = 41;
 order = 4;
-k_ratio = 0.1; 
+k_ratio = 0.1;
+            
 
 BC = 2;
 x0 = -1;
@@ -28,7 +29,7 @@ end
 
 
 figure(1);
-%plot(error{1,1});
+plot(error{1,1});
 hold on
 plot(error{2,1});
 if BC == 1
