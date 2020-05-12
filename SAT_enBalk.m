@@ -44,10 +44,10 @@ elseif BC == 2 %free
     SAT = HI*d1_1'*d1_2 -HI*e1'*d1_3 -HI*dN_1'*dN_2 + HI*eN'*dN_3;
 elseif BC == 3 %sliding
     tau = 2/(h*alfa_2);
-    SAT = -HI*(d1_2+ tau*d1_1)'*d1_1 - HI*e1'*d1_3 + HI*(dN_2-tau*dN_1)'*dN_1 + HI*eN'*dN_3;
-else %hinged
+    SAT = HI*(-(d1_2+ tau*d1_1)'*d1_1 - e1'*d1_3 + (dN_2-tau*dN_1)'*dN_1 + eN'*dN_3);
+elseif BC == 4 %hinged
     tau = 4/(h^3 * alfa_3);
-    SAT = HI*(d1_3-tau*e1)'*e1+HI*d1_1'*d1_2-HI*(dN_3+tau*eN)'*eN-HI*dN_1'*dN_2;
+    SAT = HI*((d1_3-tau*e1)'*e1 +d1_1'*d1_2 -(dN_3+tau*eN)'*eN -dN_1'*dN_2);
 end
 
 A = a.*(-D4 + SAT);

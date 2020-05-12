@@ -73,12 +73,12 @@ elseif(BC == 1) %clamped
     r_l = a2*D4 + a2*HI*(tau5*e1'*d1_3 - tau6*d1_1'*d1_2 +dN_3'*eN + (tau7*eN')*eN - dN_2'*dN_1 + (tau8*dN_1')*dN_1);
 elseif(BC == 3)
     tau = 2/(h*alfa_2);
-    
-    l_u = a1*D4 +a1*HI*((d1_2+ tau*d1_1)'*d1_1 + e1'*d1_3 +tau3*eN'*dN_3 + tau4*dN_1'*dN_2);
+    SAT = HI*(-(d1_2+ tau*d1_1)'*d1_1 - e1'*d1_3 + (dN_2-tau*dN_1)'*dN_1 + eN'*dN_3);
+    l_u = a1*D4 +a1*HI*(-(d1_2+ tau*d1_1)'*d1_1 - e1'*d1_3 -tau3*eN'*dN_3 + tau4*dN_1'*dN_2);
     r_u = a2*HI*(tau3*eN'*d1_3 - tau4*dN_1'*d1_2);
 
     l_l = a1*HI*(-tau5*e1'*dN_3 + tau6*d1_1'*dN_2);
-    r_l = a2*D4 + a2*HI*(tau5*e1'*d1_3 - tau6*d1_1'*d1_2 -(dN_2-tau*dN_1)'*dN_1 - eN'*dN_3);
+    r_l = a2*D4 + a2*HI*(tau5*e1'*d1_3 - tau6*d1_1'*d1_2 +dN_3'*eN + (tau7*eN')*eN - dN_2'*dN_1 + (tau8*dN_1')*dN_1);
 end
 
 H = [H zeros(N); zeros(N) H];
