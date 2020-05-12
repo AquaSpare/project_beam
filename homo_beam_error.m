@@ -5,8 +5,8 @@ close all
 
 %konvergens för SBP4 
 
-iter = 4;
-N = 20;
+iter = 6;
+N = 15;
 errorProj = zeros(1,iter);
 stepsProj = zeros(1,iter);
 errorSAT = zeros(1,iter);
@@ -15,8 +15,8 @@ stepsSAT = zeros(1,iter);
 x0 = 0;
 xN = 1;
 a = 1;
-BC = 3;
-T = 10;
+BC = 4;
+T = 1;
 order = 4;
 kratio = 0.1;
 
@@ -30,8 +30,6 @@ for i = 1:iter
     errorSAT(i) = sqrt(hSAT)*norm(exact(xSAT,tProj(end))'-SATsolution(:,end),2);
 end
 
-figure(1)
-
 loglog(stepsProj,errorProj,'*')
 hold on
 loglog(stepsSAT,errorSAT,'x')
@@ -40,7 +38,12 @@ if BC == 1
     title('Homogenous beam, clamped boundary','FontSize',18)
 elseif BC == 2
     title('Homogenous beam, free boundary','FontSize',18)
+elseif BC == 3
+    title('Homogeneous beam, sliding boundary','FontSize',18)
+elseif BC == 4
+    title('Homogeneous beam, hinged boundary','FontSize',18)
 end
+
 legend('Projection', 'SAT','Location','northwest')
 xlabel('h','FontSize',16)
 ylabel('L2 norm of error','FontSize',16)
