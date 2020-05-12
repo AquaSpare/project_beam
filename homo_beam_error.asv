@@ -15,8 +15,8 @@ stepsSAT = zeros(1,iter);
 x0 = 0;
 xN = 1;
 a = 1;
-BC = 2;
-T = 1;
+
+T = 10;
 order = 4;
 kratio = 0.1;
 

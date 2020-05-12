@@ -35,10 +35,16 @@ end
 %%%SBP operators%%%
 if(order == 2)
     [D4, H, HI, M, e1, eN, d1_1, dN_1, d1_2, dN_2, d1_3, dN_3] = SBP2_D4(N, h);
+    alfa_2 = 1.250;
+    alfa_3 = 0.4;
 elseif(order == 4)
     [D4, H, HI, M, e1, eN, d1_1, dN_1, d1_2, dN_2, d1_3, dN_3] = SBP4_D4(N, h);
+    alfa_2 = 0.548;
+    alfa_3 = 1.088;
 elseif(order == 6)
     [D4, H, HI, M, e1, eN, d1_1, dN_1, d1_2, dN_2, d1_3, dN_3] = SBP6_D4(N, h);
+    alfa_2 = 0.322;
+    alfa_3 = 0.156;
 end
 
 
@@ -55,10 +61,6 @@ if(BC == 2)%free
     l_l = a1*HI*(-tau5*e1'*dN_3 + tau6*d1_1'*dN_2);
     r_l = a2*D4 + a2*HI*(tau5*e1'*d1_3 - tau6*d1_1'*d1_2 - eN'*dN_3 + dN_1'*dN_2);
 elseif(BC == 1) %clamped
-    if(order == 4)
-        alfa_2 = 0.548;
-        alfa_3 = 1.088;
-    end
     tau1 = 4/(h^3*alfa_3);
     tau2 = 4/(h*alfa_2);
     tau7 = tau1;
@@ -69,6 +71,22 @@ elseif(BC == 1) %clamped
 
     l_l = a1*HI*(-tau5*e1'*dN_3 + tau6*d1_1'*dN_2);
     r_l = a2*D4 + a2*HI*(tau5*e1'*d1_3 - tau6*d1_1'*d1_2 +dN_3'*eN + (tau7*eN')*eN - dN_2'*dN_1 + (tau8*dN_1')*dN_1);
+elseif(BC == 3)
+    tau = 2/(h*alfa_2);
+    
+    l_u = a1*D4 +a1*HI*((d1_2+ tau*d1_1)'*d1_1 + e1'*d1_3 -tau3*eN'*dN_3 + tau4*dN_1'*dN_2);
+    r_u = a2*HI*(tau3*eN'*d1_3 - tau4*dN_1'*d1_2);
+
+    l_l = a1*HI*(-tau5*e1'*dN_3 + tau6*d1_1'*dN_2);
+    r_l = a2*D4 + a2*HI*(tau5*e1'*d1_3 - tau6*d1_1'*d1_2 -(dN_2-tau*dN_1)'*dN_1 - eN'*dN_3);
+elseif(BC == 4)
+    tau = 4/(h^3*alfa_3);
+    
+    l_u = a1*D4 +a1*HI*(-(d1_3-tau*e1)'*e1 -d1_1'*d1_2 -tau3*eN'*dN_3 + tau4*dN_1'*dN_2);
+    r_u = a2*HI*(tau3*eN'*d1_3 - tau4*dN_1'*d1_2);
+
+    l_l = a1*HI*(-tau5*e1'*dN_3 + tau6*d1_1'*dN_2);
+    r_l = a2*D4 + a2*HI*(tau5*e1'*d1_3 - tau6*d1_1'*d1_2 +(dN_3+tau*eN)'*eN +dN_1'*dN_2);
 end
 
 H = [H zeros(N); zeros(N) H];
