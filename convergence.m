@@ -1,3 +1,6 @@
+%-------------FUNKAR INTE MED SUBPLOTTARNA ----------------------
+
+
 %convergence
 %program för att generera homogen konvergens plot
 close all
