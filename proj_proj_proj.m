@@ -94,6 +94,8 @@ if plotornot == 1
         else
             plot(x1, w(1:N,i), 'b', x2, w(N+1:end,i), 'r');
             axis([x0 xN -1 1]);
+            xlabel('x','FontSize',16);
+            title('Numerical solution, free','FontSize',18);
         end
         pause(0.00000001);
     end
