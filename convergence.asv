@@ -1,0 +1,14 @@
+%convergence
+%program för att generera homogen konvergens plot
+
+iter = 2;
+order = 2;
+a = 1;
+
+e_sat = zeros(4,iter);
+e_proj = zeros(4,iter);
+
+figure(1)
+for i = 1:4
+    [e_sat(i,:),e_proj(i,:),~] = homo_konvergens(iter,i,order,a,0);
+end
