@@ -1,8 +1,10 @@
-function CFL_number = homogenous_CFL_number(method,N,BC,a,order)
+function CFL_number = homogenous_CFL_number(method,N,BC,a)
 %method 1, PROJECTION
 %method 2, SAT
 h = 1/(N-1);
-
+i=1;
+for order = 2:2:6
+    
 if(order == 2)
     [D4, H, HI, M, e1, eN, d1_1, dN_1, d1_2, dN_2, d1_3, dN_3] = SBP2_D4(N, h);
     alfa_2 = 1.250;
@@ -37,7 +39,7 @@ end
 P = eye(N)-HI*L'*inv(L*HI*L')*L;
 A = -a.*P*D4*P;
 
-CFL_number = 2/sqrt(max(abs(eig(h^4*A))));
+CFL_number(i) = 2/sqrt(max(abs(eig(h^4*A))));
 
 elseif method == 2
     if BC == 1 %clamped
@@ -58,5 +60,7 @@ end
 
 A = a.*(-D4 + SAT);
 
-CFL_number = 2/sqrt(max(abs(eig(h^4*A))));
+CFL_number(i) = 2/sqrt(max(abs(eig(h^4*A))));
+end
+i = i+1;
 end
