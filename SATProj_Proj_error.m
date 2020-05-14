@@ -12,11 +12,11 @@ errorProjSAT = zeros(1,iter);
 stepsSAT_proj_SAT = zeros(1,iter);
 errorSAT_proj_SAT = zeros(1,iter);
 
-BC = 2;
+BC = 1;
 a1 = 1;
 a2 = 4;
 T = 0.05;
-order = 4;
+order = 6;
 
 x0 = -1;
 xl = 0;

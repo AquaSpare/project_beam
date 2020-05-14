@@ -20,20 +20,20 @@ elseif(order == 6)
 end
 
 if method == 1
-    %------------Boundary conditions--------------
-if BC == 1
-    %------Clamped-------
-    L = [e1;eN;d1_1;dN_1];
-elseif BC == 2
-    %-------Free---------
-    L = [d1_2;dN_2;d1_3;dN_3];
-elseif BC == 3
-    %------Sliding-------
-    L = [d1_1;dN_1;d1_3;dN_3];
-elseif BC == 4
-    %------Hinged--------
-    L = [e1;eN;d1_2;dN_2];
-end
+        %------------Boundary conditions--------------
+    if BC == 1
+        %------Clamped-------
+        L = [e1;eN;d1_1;dN_1];
+    elseif BC == 2
+        %-------Free---------
+        L = [d1_2;dN_2;d1_3;dN_3];
+    elseif BC == 3
+        %------Sliding-------
+        L = [d1_1;dN_1;d1_3;dN_3];
+    elseif BC == 4
+        %------Hinged--------
+        L = [e1;eN;d1_2;dN_2];
+    end
     
     
 P = eye(N)-HI*L'*inv(L*HI*L')*L;

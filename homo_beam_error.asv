@@ -5,7 +5,7 @@ close all
 
 %konvergens för SBP4 
 
-iter = 15;
+iter = 6;
 N = 15;
 errorProj = zeros(1,iter);
 stepsProj = zeros(1,iter);
@@ -15,11 +15,10 @@ stepsSAT = zeros(1,iter);
 x0 = 0;
 xN = 1;
 a = 1;
-BC = 2;
-T = 0.14;
+BC = 3;
+T = 2;
 order = 6;
-kratio = 0.01;
-
+kratio = 0.09;
 
 exact = homo_beam_ana_2(a,BC);
 for i = 1:iter
