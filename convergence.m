@@ -1,5 +1,3 @@
-%-------------FUNKAR INTE MED SUBPLOTTARNA ----------------------
-
 
 %convergence
 %program för att generera homogen konvergens plot
@@ -15,12 +13,15 @@ e_proj = zeros(4,iter);
 figure(1)
 for i = 1:4
     [e_sat(i,:),e_proj(i,:),steps] = homo_konvergens(iter,i,order,a,0);
-    
+end
+
+for i = 1:4
+        
     subplot(2,2,i)
     plot(steps,e_sat(i,:),'rx')
     hold on
     plot(steps,e_proj(i,:),'b*')
-    legend('SAT','Projection')
+    legend('SAT','Projection','Location','northwest')
     hold off
     
     if i == 1
