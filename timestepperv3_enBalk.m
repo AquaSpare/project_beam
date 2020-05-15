@@ -8,7 +8,7 @@ solution(:,1) = u0;
 solution(:,2) = k*u0_t' + 0.5*k^2*A*u0' + u0';
 u_exact = homo_beam_ana_2(a,BC);
 
-saves = 2000;
+saves = 1;
 error = zeros(1,ceil(length(t)/saves));
 
 j = 0;
