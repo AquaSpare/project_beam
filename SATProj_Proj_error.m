@@ -1,8 +1,8 @@
 %%% Jämför de 3 olika metoderna. Ändra N för antal punkter och iter för
 %%% sista antalet punkter ( iter*N ) 
 close all
-iter = 16;
-N = 40;
+iter = 5;
+N = 30;
 errorProj = zeros(1,iter);
 errorSAT = zeros(1,iter);
 stepsProj = zeros(1,iter);
@@ -15,7 +15,7 @@ errorSAT_proj_SAT = zeros(1,iter);
 BC = 1;
 a1 = 1;
 a2 = 4;
-T = 0.05;
+T = 0.04;
 order = 6;
 
 x0 = -1;
