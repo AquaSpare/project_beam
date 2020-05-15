@@ -25,14 +25,14 @@ kratio = 0.01;
 
 exact = homo_beam_ana_2(a,BC);
 for i = 1:iter
-    [projSolution,tProj,xProj,hProj,kProj] = beam_homogenous((N*i)+1,x0,xN,T,a,order,BC,500, kratio,1,0,2);
+    [projSolution,tProj,xProj,hProj,kProj] = beam_homogenous((N*i)+1,x0,xN,T,a,order,BC,500, kratio,1,0,2,timestepperOrder);
     steps(i) = hProj;
     errorProj(i) = sqrt(hProj)*norm(exact(xProj,tProj(end))'-projSolution(:,end),2);
-    [SATsolution, tSAT, xSAT, hSAT, kSAT] = SAT_enBalk((N*i)+1,x0,xN,T, a, order, BC, 500, kratio, 1, 0, 2);
+    [SATsolution, tSAT, xSAT, hSAT, kSAT] = SAT_enBalk((N*i)+1,x0,xN,T, a, order, BC, 500, kratio, 1, 0, 2,timestepperOrder);
     errorSAT(i) = sqrt(hSAT)*norm(exact(xSAT,tProj(end))'-SATsolution(:,end),2);
-    [SATsolution, tSAT, xSAT, hSAT, kSAT] = SAT2_enBalk((N*i)+1,x0,xN,T, a, order, BC, 500, kratio, 1, 0, 2);
+    [SATsolution, tSAT, xSAT, hSAT, kSAT] = SAT2_enBalk((N*i)+1,x0,xN,T, a, order, BC, 500, kratio, 1, 0, 2,timestepperOrder);
     errorSAT2(i) = sqrt(hSAT)*norm(exact(xSAT,tProj(end))'-SATsolution(:,end),2);
-    [SATsolution, tSAT, xSAT, hSAT, kSAT] = SAT3_enBalk((N*i)+1,x0,xN,T, a, order, BC, 500, kratio, 1, 0, 2);
+    [SATsolution, tSAT, xSAT, hSAT, kSAT] = SAT3_enBalk((N*i)+1,x0,xN,T, a, order, BC, 500, kratio, 1, 0, 2,timestepperOrder);
     errorSAT3(i) = sqrt(hSAT)*norm(exact(xSAT,tProj(end))'-SATsolution(:,end),2);
 end
 

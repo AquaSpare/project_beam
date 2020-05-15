@@ -1,4 +1,4 @@
-function [w, t, x, h, k, error] = SAT3_enBalk(N,x0,xN,T, a, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion)
+function [w, t, x, h, k, error] = SAT3_enBalk(N,x0,xN,T, a, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion,timestepperOrder)
 
 h = (xN-x0)/(N-1);
 x = x0:h:xN;
@@ -58,10 +58,10 @@ end
 P = eye(N)-HI*L'*inv(L*HI*L')*L;
 A = a.*P*(-D4 + SAT)*P;
 if timestepperversion == 1
-    [w,k,t] = timestepper(T,h,A,u0,u0_t,k_ratio);
+    [w,k,t] = timestepper(T,h,A,u0,u0_t,k_ratio,timestepperOrder);
     error = 0;
 elseif timestepperversion == 2
-    [w,k,t] = timestepperv2(T,h,A,u0,u0_t,k_ratio);
+    [w,k,t] = timestepperv2(T,h,A,u0,u0_t,k_ratio,timestepperOrder);
     error = 0;
 elseif timestepperversion == 3
     [w,k,t,error] = timestepperv3_enBalk(T,h,A,u0,u0_t,k_ratio,BC,a,x0,xN);
