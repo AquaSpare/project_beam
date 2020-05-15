@@ -5,8 +5,8 @@ close all
 
 %konvergens för SBP4 
 
-iter = 15;
-N = 15;
+iter = 6;
+N = 30;
 errorProj = zeros(1,iter);
 stepsProj = zeros(1,iter);
 errorSAT = zeros(1,iter);
@@ -15,7 +15,7 @@ stepsSAT = zeros(1,iter);
 x0 = 0;
 xN = 1;
 a = 1;
-BC = 2;
+BC = 4;
 T = 0.14;
 order = 6;
 kratio = 0.01;
