@@ -2,7 +2,7 @@
 %%% sista antalet punkter ( iter*N ) 
 close all
 iter = 5;
-N = 30;
+N = 20;
 errorProj = zeros(1,iter);
 errorSAT = zeros(1,iter);
 stepsProj = zeros(1,iter);
@@ -15,8 +15,9 @@ errorSAT_proj_SAT = zeros(1,iter);
 BC = 1;
 a1 = 1;
 a2 = 4;
-T = 0.04;
-order = 6;
+T = 0.14;
+order = 2;
+kratio = 0.08;
 
 x0 = -1;
 xl = 0;
@@ -26,23 +27,23 @@ xN = 1;
 
 for i = 1:iter
     if BC == 1
-    [solProj,tProj,xProj,hProj,kProj] = proj_proj_proj((N*i)+1, x0, xl, xN, T, a1, a2, order, BC, 10, 0.0001, 1, 0, 2);
+    [solProj,tProj,xProj,hProj,kProj] = proj_proj_proj((N*i)+1, x0, xl, xN, T, a1, a2, order, BC, 10, kratio, 1, 0, 2);
     exact = [u(x0:hProj:xl,tProj(end)) v(xl:hProj:xN,tProj(end))];
     stepsProj(i) = hProj;
     errorProj(i) = sqrt(hProj)*norm(exact'-solProj(:,end),2);
     
-    [solProjSAT, tProjSAT, xProjSAT, hProjSAT, kProjSAT] = proj_projSAT_proj((N*i)+1,x0,xl,xN,T, a1, a2, order, BC, 100,0.0001,1,0,2);
+    [solProjSAT, tProjSAT, xProjSAT, hProjSAT, kProjSAT] = proj_projSAT_proj((N*i)+1,x0,xl,xN,T, a1, a2, order, BC, 100,kratio,1,0,2);
     exact = [u(x0:hProjSAT:xl,tProjSAT(end)) v(xl:hProjSAT:xN,tProjSAT(end))];
     stepsProjSAT(i) = hProjSAT;
     errorProjSAT(i) = sqrt(hProjSAT)*norm(exact'-solProjSAT(:,end),2);
     
     elseif BC == 2                                 
-    [solSAT_projSAT_SAT, tSAT_projSAT_SAT, xSAT_projSAT_SAT, hSAT_projSAT_SAT, kSAT_projSAT_SAT] = SAT_projSAT_SAT((N*i)+1,x0,xl,xN,T, a1, a2, order, BC, 10,0.0001,1,0,2);
+    [solSAT_projSAT_SAT, tSAT_projSAT_SAT, xSAT_projSAT_SAT, hSAT_projSAT_SAT, kSAT_projSAT_SAT] = SAT_projSAT_SAT((N*i)+1,x0,xl,xN,T, a1, a2, order, BC, 10,kratio,1,0,2);
     exact = [u(x0:hSAT_projSAT_SAT:xl,tSAT_projSAT_SAT(end)) v(xl:hSAT_projSAT_SAT:xN,tSAT_projSAT_SAT(end))];
     stepsSAT(i) = hSAT_projSAT_SAT;
     errorSAT(i) = sqrt(hSAT_projSAT_SAT)*norm(exact'-solSAT_projSAT_SAT(:,end),2);
     
-    [solSAT_proj_SAT, tSAT_proj_SAT, xSAT_proj_SAT, hSAT_proj_SAT, kSAT_proj_SAT] = SAT_proj_SAT((N*i)+1,x0,xl,xN,T, a1, a2, order, BC, 100,0.0001,1,0,2);
+    [solSAT_proj_SAT, tSAT_proj_SAT, xSAT_proj_SAT, hSAT_proj_SAT, kSAT_proj_SAT] = SAT_proj_SAT((N*i)+1,x0,xl,xN,T, a1, a2, order, BC, 100,kratio,1,0,2);
     exact = [u(x0:hSAT_proj_SAT:xl,tSAT_proj_SAT(end)) v(xl:hSAT_proj_SAT:xN,tSAT_proj_SAT(end))];
     stepsSAT_proj_SAT(i) = hSAT_proj_SAT;
     errorSAT_proj_SAT(i) = sqrt(hSAT_proj_SAT)*norm(exact'-solSAT_proj_SAT(:,end),2);

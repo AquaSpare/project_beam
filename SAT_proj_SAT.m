@@ -25,10 +25,16 @@ end
 %%%SBP operators%%%
 if(order == 2)
     [D4, H, HI, M, e1, eN, d1_1, dN_1, d1_2, dN_2, d1_3, dN_3] = SBP2_D4(N, h);
+    alfa_2 = 1.250;
+    alfa_3 = 0.4;
 elseif(order == 4)
     [D4, H, HI, M, e1, eN, d1_1, dN_1, d1_2, dN_2, d1_3, dN_3] = SBP4_D4(N, h);
+    alfa_2 = 0.548;
+    alfa_3 = 1.088;
 elseif(order == 6)
     [D4, H, HI, M, e1, eN, d1_1, dN_1, d1_2, dN_2, d1_3, dN_3] = SBP6_D4(N, h);
+    alfa_2 = 0.322;
+    alfa_3 = 0.156;
 end
 
 
@@ -43,10 +49,6 @@ if(BC == 2)%free
     l_u = a1*D4 + a1*HI*(e1'*d1_3 - d1_1'*d1_2);
     r_l = a2*D4 + a2*HI*(-eN'*dN_3 + dN_1'*dN_2);
 elseif(BC == 1) %clamped
-    if(order == 4)
-        alfa_2 = 0.548;
-        alfa_3 = 1.088;
-    end
     tau1 = 4/(h^3*alfa_3);
     tau2 = 4/(h*alfa_2);
     tau7 = tau1;

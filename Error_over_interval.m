@@ -1,5 +1,5 @@
 %Error over interval to see where the errors are the highest.
-N = 161;
+N = 81;
 x0 = -1;
 xl=0;
 xN = 1;
@@ -8,8 +8,8 @@ T = 0.14;
 a1 = 1;
 a2 = 100;
 order = 4;
-BC = 2;
-k_ratio = 0.01;
+BC = 1;
+k_ratio = 0.001;
 timestepper = 2;
 
 [u_exact_l, u_exact_r] = beam_ana(BC,a1,a2);
@@ -42,7 +42,7 @@ title('Error over domain','FontSize',18);
 xlabel('x','FontSize',16);
 ylabel('L2 norm of error','FontSize',16);
 hold on;
-plot([0 0], [0.2e-6 0], 'r--', 'LineWidth',0.5);
+plot([0 0], [0.15e-4 0], 'r--', 'LineWidth',0.5);
 % legend('ProjSAT','ProjSAT2','ProjSAT3','Inner boundary');
 legend('ProjSAT','Inner boundary');
 hold off;

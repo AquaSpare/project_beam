@@ -2,7 +2,7 @@
 %%% sista antalet punkter ( iter*N ) 
 close all
 iter = 5;
-N = 15;
+N = 20;
 errorProjSAT = zeros(1,iter);
 errorProjSAT2 = zeros(1,iter);
 errorProjSAT3 = zeros(1,iter);
