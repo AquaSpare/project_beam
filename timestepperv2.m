@@ -17,8 +17,10 @@ if order == 2
 elseif order == 4
     solution(:,1) = u0;
     solution(:,2) =  k*u0_t' + (k^3/6).*A*u0_t' + 0.5*k^2*A*u0' + u0';
+    A2 = (k^4/12)*A^2;
+    A1 = k^2*A;
     for i=3:length(t)
-        solution(:,3) = (k^4/12)*A^2*solution(:,2)+k^2.*A*solution(:,2) + 2*solution(:,2) - solution(:,1);
+        solution(:,3) = A2*solution(:,2)+A1*solution(:,2) + 2*solution(:,2) - solution(:,1);
         solution(:,1) = solution(:,2);
         solution(:,2) = solution(:,3);
     end

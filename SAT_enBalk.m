@@ -59,7 +59,7 @@ elseif timestepperversion == 2
     [w,k,t] = timestepperv2(T,h,A,u0,u0_t,k_ratio,timestepperOrder);
     error = 0;
 elseif timestepperversion == 3
-    [w,k,t,error] = timestepperv3_enBalk(T,h,A,u0,u0_t,k_ratio,BC,a,x0,xN);
+    [w,k,t,error] = timestepperv3_enBalk(T,h,A,u0,u0_t,k_ratio,BC,a,x0,xN,timestepperOrder);
 end
 
 

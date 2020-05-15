@@ -17,7 +17,7 @@
 %%%% Hinged
 %%%% proj_projSAT_proj(81,-1,0,1,0.1,1,100,4,4,200, 0.00001, 0, 1, 1);
 
-function [w,t,x,h,k,error] = proj_projSAT_proj(N, x0, xl, xN, T, a1, a2, order, BC, plotspeed, k_ratio, IC, plotornot,timestepperversion)
+function [w,t,x,h,k,error] = proj_projSAT_proj(N, x0, xl, xN, T, a1, a2, order, BC, plotspeed, k_ratio, IC, plotornot,timestepperversion,timestepperOrder)
 close all
 pause on
 %%%Domain%%%
@@ -79,14 +79,14 @@ P = [eye(N) zeros(N); zeros(N) eye(N)] - HI*L'*inv(L*HI*L')*L;
 A = -P*[l_u r_u; l_l r_l]*P;
 
 w0 = [u0 v0];
-w0_t = 0;
+w0_t = zeros(1,length(w0));
 
 if timestepperversion == 1
-    [w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio);
+    [w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio,timestepperOrder);
 elseif timestepperversion == 2
-    [w,k,t] = timestepperv2(T,h,A,w0,w0_t,k_ratio);
+    [w,k,t] = timestepperv2(T,h,A,w0,w0_t,k_ratio,timestepperOrder);
 elseif timestepperversion == 3
-    [w,k,t,error] = timestepperv3(T,h,A,w0,w0_t,k_ratio,BC,a1,a2,x0,xl,xN);
+    [w,k,t,error] = timestepperv3(T,h,A,w0,w0_t,k_ratio,BC,a1,a2,x0,xl,xN,timestepperOrder);
 end
 
 %%% Plot

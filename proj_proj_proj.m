@@ -73,9 +73,9 @@ w0_t = zeros(1,length(w0));
 if timestepperversion == 1
         [w,k,t] = timestepper(T,h,A,w0,w0_t, k_ratio,timestepperOrder);
 elseif timestepperversion == 2
-    [w,k,t] = timestepperv2(T,h,A,w0,w0_t,k_ratio);
+    [w,k,t] = timestepperv2(T,h,A,w0,w0_t,k_ratio,timestepperOrder);
 elseif timestepperversion == 3
-    [w,k,t,error] = timestepperv3(T,h,A,w0,w0_t,k_ratio,BC,a1,a2,x0,xl,xN);
+    [w,k,t,error] = timestepperv3(T,h,A,w0,w0_t,k_ratio,BC,a1,a2,x0,xl,xN,timestepperOrder);
 end
 
 %%% Plot

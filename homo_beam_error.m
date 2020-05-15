@@ -11,17 +11,15 @@ N = 30;
 steps = zeros(1,iter);
 errorProj = zeros(1,iter);
 errorSAT = zeros(1,iter);
-errorSAT2 = zeros(1,iter);
-errorSAT3 = zeros(1,iter);
 
 x0 = 0;
 xN = 1;
 a = 1;
 BC = 4;
-T = 0.14;
-order = 6;
-kratio = 0.01;
-
+T = 0.5;
+order = 2;
+kratio = 0.1;
+timestepperOrder = 4;
 
 exact = homo_beam_ana_2(a,BC);
 for i = 1:iter
@@ -30,17 +28,12 @@ for i = 1:iter
     errorProj(i) = sqrt(hProj)*norm(exact(xProj,tProj(end))'-projSolution(:,end),2);
     [SATsolution, tSAT, xSAT, hSAT, kSAT] = SAT_enBalk((N*i)+1,x0,xN,T, a, order, BC, 500, kratio, 1, 0, 2,timestepperOrder);
     errorSAT(i) = sqrt(hSAT)*norm(exact(xSAT,tProj(end))'-SATsolution(:,end),2);
-    [SATsolution, tSAT, xSAT, hSAT, kSAT] = SAT2_enBalk((N*i)+1,x0,xN,T, a, order, BC, 500, kratio, 1, 0, 2,timestepperOrder);
-    errorSAT2(i) = sqrt(hSAT)*norm(exact(xSAT,tProj(end))'-SATsolution(:,end),2);
-    [SATsolution, tSAT, xSAT, hSAT, kSAT] = SAT3_enBalk((N*i)+1,x0,xN,T, a, order, BC, 500, kratio, 1, 0, 2,timestepperOrder);
-    errorSAT3(i) = sqrt(hSAT)*norm(exact(xSAT,tProj(end))'-SATsolution(:,end),2);
 end
 
-loglog(steps,errorProj,'b*')
+loglog(steps,errorProj,'b*');
 hold on
-loglog(steps,errorSAT,'rx')
-loglog(steps,errorSAT2,'go')
-loglog(steps,errorSAT3,'m^')
+loglog(steps,errorSAT,'rx');
+loglog(steps,50*steps.^2,'g--');
 hold off
 if BC == 1 
     title('Homogenous beam, clamped boundary','FontSize',18)
@@ -52,7 +45,7 @@ elseif BC == 4
     title('Homogeneous beam, hinged boundary','FontSize',18)
 end
 
-legend('Projection', 'SAT', 'SAT2', 'SAT3','Location','northwest')
+legend('Projection', 'SAT', '2th order convergence','Location','northwest')
 xlabel('h','FontSize',16)
 ylabel('L2 norm of error','FontSize',16)
 
