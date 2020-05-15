@@ -1,4 +1,4 @@
-function [w, t, x, h, k, error] = SAT_enBalk(N,x0,xN,T, a, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion)
+function [w, t, x, h, k, error] = SAT_enBalk(N,x0,xN,T, a, order, BC, plotspeed, k_ratio, IC, plotornot, timestepperversion, timestepperOrder)
 
 h = (xN-x0)/(N-1);
 x = x0:h:xN;
@@ -13,7 +13,7 @@ if(IC == 0)
 else 
     u = homo_beam_ana_2(a, BC);
     u0 = u(x,0);
-    u0_t = 0;
+    u0_t = zeros(1,length(u0));
 end
 
 %%%%%%%
@@ -53,10 +53,10 @@ end
 
 A = a.*(-D4 + SAT);
 if timestepperversion == 1
-    [w,k,t] = timestepper(T,h,A,u0,u0_t,k_ratio);
+    [w,k,t] = timestepper(T,h,A,u0,u0_t,k_ratio,timestepperOrder);
     error = 0;
 elseif timestepperversion == 2
-    [w,k,t] = timestepperv2(T,h,A,u0,u0_t,k_ratio);
+    [w,k,t] = timestepperv2(T,h,A,u0,u0_t,k_ratio,timestepperOrder);
     error = 0;
 elseif timestepperversion == 3
     [w,k,t,error] = timestepperv3_enBalk(T,h,A,u0,u0_t,k_ratio,BC,a,x0,xN);
