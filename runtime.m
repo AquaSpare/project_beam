@@ -2,7 +2,7 @@
 %%% sista antalet punkter ( iter*N ) 
 close all
 iter = 5;
-N = 30;
+N = 60;
 error2 = zeros(1,iter);
 error4 = zeros(1,iter);
 error6 = zeros(1,iter);
@@ -11,14 +11,14 @@ time4 = zeros(1,iter);
 time6 = zeros(1,iter);
 
 BC = 1;
-a1 = 1;
-a2 = 4;
-T = 3;
+a1 = 1000;
+a2 = 4000;
+T = 1000;
 timestepperOrder = 4;
 
-x0 = -1;
+x0 = -1000;
 xl = 0;
-xN = 1;
+xN = 1000;
 
 [u,v] = beam_ana(BC,a1,a2);
 

@@ -9,8 +9,9 @@ solution = zeros(length(u0),3);
 if order == 2
     solution(:,1) = u0;
     solution(:,2) = k*u0_t' + 0.5*k^2*A*u0' + u0';
+    A1 = k^2.*A;
     for i=3:length(t)
-        solution(:,3) = k^2.*A*solution(:,2) + 2*solution(:,2) - solution(:,1);
+        solution(:,3) = A1*solution(:,2) + 2*solution(:,2) - solution(:,1);
         solution(:,1) = solution(:,2);
         solution(:,2) = solution(:,3);
     end
