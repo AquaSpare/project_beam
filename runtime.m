@@ -2,7 +2,7 @@
 %%% sista antalet punkter ( iter*N ) 
 close all
 iter = 5;
-N = 20;
+N = 30;
 error2 = zeros(1,iter);
 error4 = zeros(1,iter);
 error6 = zeros(1,iter);
@@ -13,7 +13,7 @@ time6 = zeros(1,iter);
 BC = 1;
 a1 = 1;
 a2 = 4;
-T = 3;
+T = 5;
 timestepperOrder = 4;
 
 x0 = -1;
@@ -24,26 +24,26 @@ xN = 1;
 
 for i = 1:iter
     tic;
-    [sol,t,x,h,k] = proj_projSAT_proj((N*i)+1, x0, xl, xN, T, a1, a2, 2, BC, 100, 0, 1, 0, 2,timestepperOrder);
+    [sol,t,x,h,k] = proj_projSAT_proj((N*i)+1, x0, xl, xN, T, a1, a2, 2, BC, 100, 0.1, 1, 0, 2,timestepperOrder);
     time2(i) = toc;
     exact = [u(x0:h:xl,t(end)) v(xl:h:xN,t(end))];
     error2(i) = sqrt(h)*norm(exact'-sol(:,end),2);
     
     tic;
-    [sol,t,x,h,k] = proj_projSAT_proj((N*i)+1, x0, xl, xN, T, a1, a2, 4, BC, 100, 0, 1, 0, 2,timestepperOrder);
+    [sol,t,x,h,k] = proj_projSAT_proj((N*i)+1, x0, xl, xN, T, a1, a2, 4, BC, 100, 0.1, 1, 0, 2,timestepperOrder);
     time4(i) = toc;
     exact = [u(x0:h:xl,t(end)) v(xl:h:xN,t(end))];
     error4(i) = sqrt(h)*norm(exact'-sol(:,end),2);
     
     tic;
-    [sol,t,x,h,k] = proj_projSAT_proj((N*i)+1, x0, xl, xN, T, a1, a2, 6, BC, 100, 0, 1, 0, 2,timestepperOrder);
+    [sol,t,x,h,k] = proj_projSAT_proj((N*i)+1, x0, xl, xN, T, a1, a2, 6, BC, 100, 0.1, 1, 0, 2,timestepperOrder);
     time6(i) = toc;
     exact = [u(x0:h:xl,t(end)) v(xl:h:xN,t(end))];
     error6(i) = sqrt(h)*norm(exact'-sol(:,end),2);
     
 end
 
-figure(1)
+figure(2)
 loglog(time2,error2, 'ro')
 hold on
 loglog(time4,error4, 'bs')
