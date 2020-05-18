@@ -11,10 +11,10 @@ A7 = x(9);
 A8 = x(10);
 
 if(BC == 1) % Clamped
-    y1 = A1*sinh(-b1) + A2*sin(-b1) + A3*cosh(-b1) + A4*cos(-b1);
-    y2 = A1*cosh(-b1) + A2*cos(-b1) + A3*sinh(-b1) - A4*sin(-b1);
-    y3 = A5*sinh(b2)  + A6*sin(b2)  + A7*cosh(b2)  + A8*cos(b2);
-    y4 = A5*cosh(b2)  + A6*cos(b2)  + A7*sinh(b2)  - A8*sin(b2);
+    y1 = A1*sinh(-1000*b1) + A2*sin(-1000*b1) + A3*cosh(-1000*b1) + A4*cos(-1000*b1);
+    y2 = A1*cosh(-1000*b1) + A2*cos(-1000*b1) + A3*sinh(-1000*b1) - A4*sin(-1000*b1);
+    y3 = A5*sinh(1000*b2)  + A6*sin(1000*b2)  + A7*cosh(1000*b2)  + A8*cos(1000*b2);
+    y4 = A5*cosh(1000*b2)  + A6*cos(1000*b2)  + A7*sinh(1000*b2)  - A8*sin(1000*b2);
 elseif(BC == 2) % Free
     y1 = A1*sinh(-b1) - A2*sin(-b1) + A3*cosh(-b1) - A4*cos(-b1);
     y2 = A1*cosh(-b1) - A2*cos(-b1) + A3*sinh(-b1) + A4*sin(-b1);
