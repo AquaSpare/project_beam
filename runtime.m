@@ -13,7 +13,7 @@ time6 = zeros(1,iter);
 BC = 1;
 a1 = 1;
 a2 = 4;
-T = 5;
+T = 3;
 timestepperOrder = 4;
 
 x0 = -1;
