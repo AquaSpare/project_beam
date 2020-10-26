@@ -44,24 +44,40 @@ end
 %%%SBP operators%%%
 if(order == 2)
     [D4, H, HI, M, e1, eN, d1_1, dN_1, d1_2, dN_2, d1_3, dN_3] = SBP2_D4(N, h);
+    alfa_2 = 1.250;
+    alfa_3 = 0.4;
 elseif(order == 4)
     [D4, H, HI, M, e1, eN, d1_1, dN_1, d1_2, dN_2, d1_3, dN_3] = SBP4_D4(N, h);
+    alfa_2 = 0.548;
+    alfa_3 = 1.088;
 elseif(order == 6)
     [D4, H, HI, M, e1, eN, d1_1, dN_1, d1_2, dN_2, d1_3, dN_3] = SBP6_D4(N, h);
+    alfa_2 = 0.322;
+    alfa_3 = 0.156;
 end
 
 %%%Boundary Conditions%%%
 if(BC == 1) %clamped
-%     tau1 = 4/(h^3*alfa_3);
-%     tau2 = 4/(h*alfa_2);
-%     tau7 = tau1;
-%     tau8 = tau2;
-%     
-%     l_u = a1*D4 +a1*HI*(-d1_3'*e1 + d1_2'*d1_1 + (tau1*e1)'*e1 +(tau2*d1_1)'*d1_1 -tau3*eN'*dN_3 + tau4*dN_1'*dN_2);
-%     r_u = a2*HI*(tau3*eN'*d1_3 - tau4*dN_1'*d1_2);
-% 
-%     l_l = a1*HI*(-tau5*e1'*dN_3 + tau6*d1_1'*dN_2);
-%     r_l = a2*D4 + a2*HI*(tau5*e1'*d1_3 - tau6*d1_1'*d1_2 +dN_3'*eN + (tau7*eN')*eN - dN_2'*dN_1 + (tau8*dN_1')*dN_1);
+    tau0 = 1/4*2/alfa_3;
+    sig0 = 1/4*2/alfa_2;
+    tau01 = 1/(4*h^3*alfa_3);
+    sig02 = 1/(4*h*alfa_2);
+    
+    tauu = tau0/h^3*eN' + a1/2*dN_3';
+    sigu = sig0/h*dN_1' - a1/2*dN_2';
+    PHIu = 1/2*dN_1';
+    phiu = -1/2*eN';
+    
+    tauv = tau01*e1' - a2/2*d1_3';
+    sigv = sig02*d1_1' + a2/2*d1_2';
+    PHIv = -1/2*d1_1';
+    phiv = 1/2*e1';
+    
+    l_u = a1*D4 + HI*(tau01*e1 + sig02d1_1 + tauu*eN + sigu*dN_1 + PHIu*a1*dN_2 + phiu*a1*dN_3);
+    r_u = -HI*(tauu*e1 + sigu*d1_1 + PHIu*a2*d1_2 + phiu*a2*d1_3);
+
+    l_l = -HI*(tauv*eN + sigv*d1_1 + PHIv*a1*d1_2 + phiv*a1*d1_3);
+    r_l = a2*D4 + HI*(tau01*eN + sig02dN_1 + tauv*e1 + sigv*d1_1 + PHIv*a2*d1_2 + phiv*a2*d1_3);
 elseif(BC == 2) %free
 %     l_u = a1*D4 + a1*HI*(e1'*d1_3 - d1_1'*d1_2 +  - tau3*eN'*dN_3 + tau4*dN_1'*dN_2);
 %     r_u = a2*HI*(tau3*eN'*d1_3 - tau4*dN_1'*d1_2);
